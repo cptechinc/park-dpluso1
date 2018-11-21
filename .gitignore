@@ -1,0 +1,27 @@
+# DW Dreamweaver added files
+_notes
+_compareTemp
+dwsync.xml
+dw_php_codehinting.config
+*.mno
+
+# Test Files
+site/templates/content/ajax/json/test-json.php
+site/templates/template-test.php
+site/templates/redir/test-redir.php
+
+# Processwire Directories
+site/modules
+site/assets
+wire
+
+
+# Project Configurations
+.ftpconfig
+.ftpignore
+.vscode
+site/config.php
+project.cson
+site/templates/config/customer/
+index.php
+vendor

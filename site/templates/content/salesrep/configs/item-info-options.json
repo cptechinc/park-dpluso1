@@ -1,0 +1,205 @@
+{
+    "activity": {
+        "display": "Activity",
+        "available": true,
+        "allowed": true,
+        "whse": "*",
+        "lotserial": {
+            "value": "Y",
+            "options": {
+                "Y": "Yes",
+                "N": "No"
+            }
+        },
+        "date-options": {
+            "days-back": 365,
+            "start-date": ""
+        }
+    },
+    "costing": {
+        "display": "Costing",
+        "available": true,
+        "allowed": false,
+        "whse": "*",
+        "lotserial": {
+            "value": "Y",
+            "options": {
+                "Y": "Yes",
+                "N": "No"
+            }
+        },
+        "date-options": false
+    },
+    "general": {
+        "display": "General",
+        "available": true,
+        "allowed": false,
+        "whse": false,
+        "lotserial": false,
+        "date-options": false
+    },
+    "kitsbom": {
+        "display": "Kits/BOM",
+        "available": true,
+        "allowed": false,
+        "whse": false,
+        "lotserial": false,
+        "date-options": false
+    },
+    "pricing": {
+        "display": "Pricing",
+        "available": true,
+        "allowed": false,
+        "whse": false,
+        "lotserial": false,
+        "date-options": false
+    },
+    "purchasehistory": {
+        "display": "Purchase History",
+        "available": true,
+        "allowed": true,
+        "whse": "*",
+        "lotserial": {
+            "value": "Y",
+            "options": {
+                "Y": "Yes",
+                "N": "No"
+            }
+        },
+        "date-options": {
+            "days-back": 365,
+            "start-date": ""
+        }
+    },
+    "purchaseorder": {
+        "display": "Purchase Order",
+        "available": true,
+        "allowed": false,
+        "whse": "*",
+        "lotserial": {
+            "value": "Y",
+            "options": {
+                "Y": "Yes",
+                "N": "No"
+            }
+        },
+        "date-options": false
+    },
+    "requirement": {
+        "display": "Requirement",
+        "available": true,
+        "allowed": false,
+        "whse": "*",
+        "lotserial": {
+            "value": "R",
+            "options": {
+                "A": "Available to Promise",
+                "R": "Requirement"
+            }
+        },
+        "date-options": false
+    },
+    "saleshistory": {
+        "display": "Sales History",
+        "available": true,
+        "allowed": true,
+        "whse": "*",
+        "lotserial": {
+            "value": "Y",
+            "options": {
+                "Y": "Yes",
+                "N": "No"
+            }
+        },
+        "date-options": {
+            "days-back": 365,
+            "start-date": ""
+        }
+    },
+    "salesorder": {
+        "display": "Sales Order",
+        "available": true,
+        "allowed": false,
+        "whse": "*",
+        "lotserial": {
+            "value": "Y",
+            "options": {
+                "Y": "Yes",
+                "N": "No"
+            }
+        },
+        "date-options": false
+    },
+    "serialsearch": {
+        "display": "Serial / Lot Search",
+        "available": true,
+        "allowed": false,
+        "whse": false,
+        "lotserial": false,
+        "date-options": false
+    },
+    "stockstatus": {
+        "display": "Stock Status",
+        "available": true,
+        "allowed": false,
+        "whse": "*",
+        "lotserial": {
+            "value": "Y",
+            "options": {
+                "Y": "Yes",
+                "N": "No"
+            }
+        },
+        "date-options": false
+    },
+    "substitutes": {
+        "display": "Substitutes / Supercedes",
+        "available": true,
+        "allowed": false,
+        "whse": "*",
+        "lotserial": {
+            "value": "Y",
+            "options": {
+                "Y": "Yes",
+                "N": "No"
+            }
+        },
+        "date-options": false
+    },
+    "lostsales": {
+        "display": "Lost Sales/Quote",
+        "available": true,
+        "allowed": false,
+        "whse": "*",
+        "lotserial": false,
+        "date-options": false
+    },
+    "itemdesc": {
+        "display": "Item Get-Desc 1 or 2",
+        "available": {
+            "value": "1",
+            "options": {
+                "1": "Desc 1",
+                "2": "Desc 2"
+            }
+        },
+        "allowed": false,
+        "whse": false,
+        "lotserial": false,
+        "date-options": false
+    },
+    "delete-loti": {
+        "display": "Delete LOTI Certs",
+        "available": {
+            "value": "1",
+            "options": {
+                "Y": "Yes",
+                "N": "No"
+            }
+        },
+        "allowed": false,
+        "whse": false,
+        "lotserial": false,
+        "date-options": false
+    }
+}

@@ -1,0 +1,57 @@
+{
+    "name": "cptechinc/soft-dpluso",
+    "type": "library",
+    "description": "ProcessWire CMS/CMF",
+    "keywords": [ "dpluso", "dplus-crm","crm" ],
+    "license": "MPL-2.0",
+    "homepage": "https://processwire.com",
+    "minimum-stability": "dev",
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/cptechinc/purl.git"
+        }
+    ],
+    "authors": [
+        {
+            "name": "Paul Gomez",
+            "email": "paul@cptechinc.com",
+            "homepage": "https://www.cptechinc.com",
+            "role": "Developer"
+        },
+        {
+            "name": "Barbara Bullemer",
+            "email": "barbara@cptechinc.com",
+            "homepage": "https://www.cptechinc.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=7.0.0",
+        "ext-gd": "*",
+        "atk4/dsql": "1.1",
+        "eoghanobrien/php-simple-mail": "^1.7",
+        "mikehaertl/phpwkhtmltopdf": "^2.3",
+        "picqer/php-barcode-generator": "^0.2.2",
+        "jwage/purl": "dev-cptechinc",
+        "cptechinc/dplus-base": "dev-master",
+        "cptechinc/dplus-processwire": "dev-master",
+        "cptechinc/dplus-order": "dev-master",
+        "cptechinc/dplus-items": "dev-master",
+        "cptechinc/dplus-dpluso": "dev-master",
+        "cptechinc/dplus-content": "dev-master",
+        "cptechinc/dpluso-screen-formatters": "dev-master",
+        "cptechinc/dplus-file-services": "dev-master",
+        "cptechinc/dpluso-warehouse": "dev-master"
+    },
+    "autoload": {
+        "files": [ 
+            "wire/core/ProcessWire.php",
+            "vendor/cptechinc/dplus-base/vendor/autoload.php",
+            "vendor/cptechinc/dplus-dpluso/vendor/autoload.php",
+            "vendor/cptechinc/dplus-content/vendor/autoload.php",
+            "vendor/cptechinc/dpluso-screen-formatters/vendor/autoload.php",
+            "vendor/cptechinc/dplus-file-services/vendor/autoload.php"
+        ]
+    }
+}
