@@ -51,7 +51,6 @@ $(function() {
                 buttonsStyling: false,
                 confirmButtonText: 'Yes!'
             }).then(function (result) {
-                console.log(result);
                 if (result) {
                     window.location.href = button.attr('href');
                 }
@@ -60,6 +59,15 @@ $(function() {
             swal({
                 title: 'Are you sure?',
                 text: "You have picked too much",
+                type: 'warning',
+                confirmButtonClass: 'btn btn-success',
+                buttonsStyling: false,
+                confirmButtonText: 'Continue'
+            });
+        } else if (pickitem.item.qty.expected < pickitem.item.qty.picked) { 
+            swal({
+                title: 'Bin Error',
+                text: "You have picked more than expected bin qty",
                 type: 'warning',
                 confirmButtonClass: 'btn btn-success',
                 buttonsStyling: false,
