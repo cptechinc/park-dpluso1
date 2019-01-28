@@ -11,7 +11,7 @@
 
     switch ($input->urlSegment(2)) { //Parts of order to load
         case 'search-results':
-            $q = $input->get->text('q'); 
+            $q = $input->get->text('q');
             $page->title = "Searching for '$q'";
 			switch ($input->urlSegment(3)) {
 				case 'modal':
@@ -88,7 +88,7 @@
             $tableformatter = $page->screenformatterfactory->generate_screenformatter('ii-lot-serial');
             $page->body = $config->paths->content."item-information/ii-formatted-screen.php";
             break;
-		case 'ii-sales-orders': 
+		case 'ii-sales-orders':
             $page->title = $itemID . ' Sales Order Inquiry';
             $tableformatter = $page->screenformatterfactory->generate_screenformatter('ii-sales-orders');
             $page->body = $config->paths->content."item-information/ii-formatted-screen.php";
@@ -143,8 +143,8 @@
 		$config->styles->append('//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css');
 		$config->scripts->append('//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js');
 		$config->scripts->append('//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js');
-		$config->scripts->append(hashtemplatefile('scripts/libs/datatables.js'));
-		$config->scripts->append(hashtemplatefile('scripts/ii/item-functions.js'));
-		$config->scripts->append(hashtemplatefile('scripts/ii/item-info.js'));
+		$config->scripts->append(hash_templatefile('scripts/libs/datatables.js'));
+		$config->scripts->append(hash_templatefile('scripts/ii/item-functions.js'));
+		$config->scripts->append(hash_templatefile('scripts/ii/item-info.js'));
 		include $config->paths->content."common/include-blank-page.php";
 	}

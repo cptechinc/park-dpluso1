@@ -1,6 +1,8 @@
 <?php $customer = Customer::load($quote->custid, $quote->shiptoid); ?>
 <div class="form-group hidden-print">
-	<?= $quotedisplay->generate_viewprintlink($quote); ?>
+	<a href="<?= $quotedisplay->generate_printURL($quote); ?>" target="_blank">
+		<span class="h3"><i class="fa fa-print" aria-hidden="true"></i></span> View Printable Quote
+	</a>
 </div>
 <div class="row">
 	<div class="col-sm-6">
@@ -13,12 +15,12 @@
 <div class="row">
 	<div class="col-sm-6">
 		<table class="table table-bordered table-striped table-condensed">
-			<tr> 
-				<td>CustID</td> 
+			<tr>
+				<td>CustID</td>
 				<td>
-					<?= $quote->custid; ?> - <a href="<?= $customer->generate_customerurl(); ?>"><?= $customer->get_customername(); ?></a> 
+					<?= $quote->custid; ?> - <a href="<?= $customer->generate_customerURL(); ?>"><?= $customer->get_customername(); ?></a>
 					<span class="glyphicon glyphicon-share"></span>
-				</td> 
+				</td>
 			</tr>
 			<tr>
 				<td>ShiptoID</td> <td><?= $quote->shiptoid; ?></td>
@@ -67,7 +69,6 @@
 <table class="table table-bordered table-striped">
 	 <tr class="detail item-header">
 		<th class="text-center">Item ID/Cust Item ID</th>
-		<th class="text-center">Details</th>
 		<th class="text-right">Qty</th>
 		<th class="text-right" width="100">Price</th>
 		<th class="text-right">Line Total</th>
@@ -81,35 +82,43 @@
 				<br>
 				<small><?= $detail->desc1. ' ' . $detail->desc2 ; ?></small>
 			</td>
-			<td>
-				<?= $quotedisplay->generate_detailvieweditlink($quote, $detail, $page->bootstrap->icon('glyphicon glyphicon-eye-open')); ?>
-            </td>
 			<td class="text-right"> <?= intval($detail->quotqty); ?> </td>
 			<td class="text-right">$ <?= $page->stringerbell->format_money($detail->quotprice); ?></td>
 			<td class="text-right">$ <?= $page->stringerbell->format_money($detail->quotprice * intval($detail->quotqty)) ?> </td>
 		</tr>
 	<?php endforeach; ?>
 	<tr>
-		<td></td> <td><b>Subtotal</b></td> <td colspan="3" class="text-right">$ <?= $page->stringerbell->format_money($quote->subtotal); ?></td>
+		<td></td> <td><b>Subtotal</b></td> <td colspan="2" class="text-right">$ <?= $page->stringerbell->format_money($quote->subtotal); ?></td>
 	</tr>
 	<tr>
-		<td></td><td><b>Tax</b></td> <td colspan="3" class="text-right">$ <?= $page->stringerbell->format_money($quote->salestax); ?></td>
+		<td></td><td><b>Tax</b></td> <td colspan="2" class="text-right">$ <?= $page->stringerbell->format_money($quote->salestax); ?></td>
 	</tr>
 	<tr>
-		<td></td><td><b>Freight</b></td> <td colspan="3" class="text-right">$ <?=$page->stringerbell->format_money($quote->freight); ?></td>
+		<td></td><td><b>Freight</b></td> <td colspan="2" class="text-right">$ <?=$page->stringerbell->format_money($quote->freight); ?></td>
 	</tr>
 	<tr>
-		<td></td><td><b>Misc.</b></td> <td colspan="3" class="text-right">$ <?= $page->stringerbell->format_money($quote->misccost); ?></td>
+		<td></td><td><b>Misc.</b></td> <td colspan="2" class="text-right">$ <?= $page->stringerbell->format_money($quote->misccost); ?></td>
 	</tr>
 	<tr>
-		<td></td><td><b>Total</b></td> <td colspan="3" class="text-right">$ <?= $page->stringerbell->format_money($quote->ordertotal); ?></td>
+		<td></td><td><b>Total</b></td> <td colspan="2" class="text-right">$ <?= $page->stringerbell->format_money($quote->ordertotal); ?></td>
 	</tr>
 </table>
 <div class="row">
 	<div class="col-sm-6">
-		<?= $quotedisplay->generate_customershiptolink($quote); ?>
+		<a href="<?= $quotedisplay->generate_editURL($quote); ?>" class="btn btn-block btn-warning">
+			<i class="fa fa-pencil" aria-hidden="true"></i> Edit Quote
+		</a>
 	</div>
 	<div class="col-sm-6">
-		<?= $quotedisplay->generate_editlink($quote); ?>
+		<a href="<?= $quotedisplay->generate_customershiptoURL($quote); ?>" class="btn btn-block btn-primary">
+			<i class="fa fa-user" aria-hidden="true"></i> Go To Customer Page
+		</a>
 	</div>
 </div>
+</br>
+<?php if ($session->panelorigin == 'quotes') :  ?>
+	<?php $url = $session->panelcustomer ? $quotedisplay->generate_customershiptoURL($quote) : $config->pages->dashboard; ?>
+	<a href="<?= $url; ?>" class="btn btn-block btn-info">
+		<span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Back to Panel
+	</a>
+<?php endif; ?>

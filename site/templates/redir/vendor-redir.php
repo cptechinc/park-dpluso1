@@ -1,18 +1,14 @@
 <?php
-	/**
-	* VENDOR REDIRECT
-	* @param string $action
-	*
-	*/
+	// Figure out page request method, then grab needed inputs
+	$requestmethod = $input->requestMethod('POST') ? 'post' : 'get';
+	$action = $input->$requestmethod->text('action');
 
-	$action = ($input->post->action ? $input->post->text('action') : $input->get->text('action'));
-	$vendorID = ($input->post->vendorID ? $input->post->text('vendorID') : $input->get->text('vendorID'));
+	// Set up filename and sessionID in case this was made through cURL
+	$filename = ($input->$requestmethod->sessionID) ? $input->$requestmethod->text('sessionID') : session_id();
+	$sessionID = ($input->$requestmethod->sessionID) ? $input->$requestmethod->text('sessionID') : session_id();
 
-
-	$session->{'from-redirect'} = $page->url;
-
-	$filename = session_id();
-
+	$session->fromredirect = $page->url;
+	$vendorID = $input->$requestmethod->text('vendorID');
 	/**
 	* VENDOR REDIRECT
 	* @param string $action

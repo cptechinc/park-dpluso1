@@ -1,10 +1,12 @@
+<?php use Dplus\Content\Paginator; ?>
+
 <nav class="text-center">
     <ul class="pagination">
         <?php if ($input->pageNum == 1) : ?>
             <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
         <?php else : ?>
             <li>
-                <a href="<?php echo paginate($ajax->link, ($input->pageNum - 1), $ajax->insertafter, '');  ?>" aria-label="Previous" class="load-link" <?php echo $ajax->data; ?>>
+                <a href="<? Paginator::paginate_url($ajax->link, ($input->pageNum - 1), $ajax->insertafterPaginator::paginate_url();  ?>" aria-label="Previous" class="load-link" <? $ajax->data; ?>>
                 	<span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
@@ -14,12 +16,12 @@
             <?php if ($i > 0) : ?> 
 				<?php if ($input->pageNum == $i) : ?>
 					<li class="active">
-						<a href="<?php echo paginate($ajax->link, $i, $ajax->insertafter, '');  ?>" class="load-link" <?php echo $ajax->data; ?>><?php echo $i; ?></a>
+						<a href="<? Paginator::paginate_url($ajax->link, $i, $ajax->insertafterPaginator::paginate_url();  ?>" class="load-link" <? $ajax->data; ?>><? $i; ?></a>
 					</li>
 				<?php elseif ($i > $totalpages) : ?>
 
 				<?php else : ?>
-					<li><a href="<?php echo paginate($ajax->link, $i, $ajax->insertafter, '');  ?>" class="load-link" <?php echo $ajax->data; ?>><?php echo $i; ?></a></li>
+					<li><a href="<? Paginator::paginate_url($ajax->link, $i, $ajax->insertafterPaginator::paginate_url();  ?>" class="load-link" <? $ajax->data; ?>><? $i; ?></a></li>
 				<?php endif; ?>
             <?php endif; ?>
         <?php endfor; ?>
@@ -28,7 +30,7 @@
             <li class="disabled"> <a href="#" aria-label="Next"> <span aria-hidden="true">&raquo;</span> </a> </li>
         <?php else : ?>
             <li>
-            	<a href="<?php echo paginate($ajax->link, ($input->pageNum + 1), $ajax->insertafter, '');  ?>" aria-label="Next" class="load-link" <?php echo $ajax->data; ?>>
+            	<a href="<? Paginator::paginate_url($ajax->link, ($input->pageNum + 1), $ajax->insertafterPaginator::paginate_url();  ?>" aria-label="Next" class="load-link" <? $ajax->data; ?>>
                 	<span aria-hidden="true">&raquo;</span>
                 </a>
             </li>

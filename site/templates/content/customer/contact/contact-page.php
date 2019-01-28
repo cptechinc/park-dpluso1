@@ -1,5 +1,5 @@
 <div class="form-group">
-	<a href="<?= $contact->generate_customerurl(); ?>" class="btn btn-primary"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Go To <?= $contact->get_customername()."'s"; ?> Page </a>
+	<a href="<?= $contact->generate_customerURL(); ?>" class="btn btn-primary"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Go To <?= $contact->get_customername()."'s"; ?> Page </a>
 </div>
 <div class="row">
 	<div class="col-sm-12 form-group">

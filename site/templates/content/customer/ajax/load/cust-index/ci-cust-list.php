@@ -1,13 +1,15 @@
 <?php
+    use Dplus\Content\Paginator;
+    use Dplus\Dpluso\Customer\CustomerIndex;
+
     $pageurl = $page->fullURL;
     $pageurl->path = ($input->get->q) ? $pageurl->path : $config->pages->ajaxload."customers/cust-index/";
     $pageurl->query->set('function', 'ci');
-    $custindex = new Dplus\Dpluso\Customer\CustomerIndex($pageurl, '#cust-index-search-form', '#cust-index-search-form');
+    $custindex = new CustomerIndex($pageurl, '#cust-index-search-form', '#cust-index-search-form');
     $custindex->set_pagenbr($input->pageNum);
     $resultscount = $custindex->count_searchcustindex($input->get->text('q'));
-    $paginator = new Dplus\Content\Paginator($custindex->pagenbr, $resultscount, $custindex->pageurl, 'cust-index', $custindex->ajaxdata);
+    $paginator = new Paginator($custindex->pagenbr, $resultscount, $custindex->pageurl, 'cust-index', $custindex->ajaxdata);
 ?>
-
 <div id="cust-results">
     <?php if ($appconfig->allow_customeradd) : ?>
         <div class="form-group">
@@ -21,19 +23,19 @@
             <thead>
                 <tr>
                     <th width="100">
-                        <a href="<?= $custindex->generate_tablesortbyurl("custid") ; ?>" class="load-link" <?= $custindex->ajaxdata; ?>>
+                        <a href="<?= $custindex->generate_sortbyURL("custid") ; ?>" class="load-link" <?= $custindex->ajaxdata; ?>>
                             CustID <?= $custindex->tablesorter->generate_sortsymbol('custid'); ?>
                         </a>
-                    </th> 
+                    </th>
                     <th>
-                        <a href="<?= $custindex->generate_tablesortbyurl("name") ; ?>" class="load-link" <?= $custindex->ajaxdata; ?>>
+                        <a href="<?= $custindex->generate_sortbyURL("name") ; ?>" class="load-link" <?= $custindex->ajaxdata; ?>>
                             Customer Name <?= $custindex->tablesorter->generate_sortsymbol('name'); ?>
                         </a>
-                    </th> 
-                    <th>Ship-To</th> 
+                    </th>
+                    <th>Ship-To</th>
                     <th>Location</th>
                     <th width="100">
-                        <a href="<?= $custindex->generate_tablesortbyurl("phone") ; ?>" class="load-link" <?= $custindex->ajaxdata; ?>>
+                        <a href="<?= $custindex->generate_sortbyURL("phone") ; ?>" class="load-link" <?= $custindex->ajaxdata; ?>>
                             Phone <?= $custindex->tablesorter->generate_sortsymbol('phone'); ?>
                         </a>
                     </th>
@@ -47,13 +49,13 @@
                         <tr>
                             <td>
                                 <a href="<?= $cust->generate_ciloadurl(); ?>">
-                                    <?= $page->stringerbell->highlight($cust->custid, $input->get->text('q'));?>
+                                    <?= $page->bootstrap->highlight($cust->custid, $input->get->text('q'));?>
                                 </a> &nbsp; <span class="glyphicon glyphicon-share"></span>
                             </td>
-                            <td><?= $page->stringerbell->highlight($cust->name, $input->get->q); ?></td>
-                            <td><?= $page->stringerbell->highlight($cust->shiptoid, $input->get->q); ?></td>
-                            <td><?= $page->stringerbell->highlight($cust->generate_address(), $input->get->q); ?></td>
-                            <td><a href="tel:<?= $cust->phone; ?>" title="Click To Call"><?= $page->stringerbell->highlight($cust->phone, $input->get->q); ?></a></td>
+                            <td><?= $page->bootstrap->highlight($cust->name, $input->get->q); ?></td>
+                            <td><?= $page->bootstrap->highlight($cust->shiptoid, $input->get->q); ?></td>
+                            <td><?= $page->bootstrap->highlight($cust->generate_address(), $input->get->q); ?></td>
+                            <td><a href="tel:<?= $cust->phone; ?>" title="Click To Call"><?= $page->bootstrap->highlight($cust->phone, $input->get->q); ?></a></td>
                             <td class="text-right"><?= empty($cust->get_lastsaledate($user->loginid)) ? 'N/A' : Dplus\Base\DplusDateTime::format_date($cust->get_lastsaledate($user->loginid)); ?></td>
                         </tr>
                     <?php endforeach; ?>

@@ -34,22 +34,22 @@
 
         $maxrec = UserAction::get_maxid($user->loginid);
 
-        $results = $task->save();
+		$session->sql = $task->save(true);
+        $success = $task->save();
 
-        $session->insertedid = $results['insertedid'];
-        $session->sql = $results['sql'];
-		$task->set('id', $results['insertedid']);
+        $session->insertedid = $task->id;
 
-		if ($results['insertedid'] > $maxrec) {
+
+		if ($success) {
 			switch ($action) {
 				case 'reschedule-task':
 					$originaltask = UserAction::load($task->actionlink);
 					$originaltask->set('datecompleted', '0000-00-00 00:00:00');
 					$originaltask->set('dateupdated', date("Y-m-d H:i:s"));
 					$originaltask->set('completed', 'R');
-					$originaltask->set('rescheduledlink', $results['insertedid']);
+					$originaltask->set('rescheduledlink', $task->id);
 					$response = $originaltask->update();
-					$session->sql .= '<br>'.$response['sql'];
+					$session->sql .= '<br>'.$session->sql;
 					$error = false;
 					$message = "<strong>Success!</strong><br> Your task for {replace} has been rescheduled";
 					$icon = "glyphicon glyphicon-floppy-saved";

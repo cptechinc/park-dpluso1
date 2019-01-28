@@ -25,7 +25,7 @@
 				<td>Customer: </td>
 				<td>
 					<?= Customer::get_customernamefromid($note->customerlink). " ($note->customerlink)"; ?> &nbsp;
-					<a href="<?= $editactiondisplay->generate_customerurl($note); ?>"><i class="glyphicon glyphicon-share"></i> Go to Customer Page</a>
+					<a href="<?= $editactiondisplay->generate_customerURL($note); ?>"><i class="glyphicon glyphicon-share"></i> Go to Customer Page</a>
 				</td>
 			</tr>
 			<?php if (!empty($note->shiptolink)) : ?>

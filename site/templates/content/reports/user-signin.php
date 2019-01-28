@@ -1,4 +1,6 @@
 <?php
+    use Dplus\Dpluso\General\SigninLog;
+    
     $signinlog = new SigninLog(session_id(), $page->fullURL, '#user-signin-table', '#user-signin-table');
     $day = $input->get->day ? date('m/d/Y', strtotime($input->get->text('day'))) : $day = date('m/d/Y');
     $signinlog->generate_filter($input);

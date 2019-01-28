@@ -1,1 +1,1 @@
-<?php include ($config->paths->content."$page->path/page-logic.php"); ?>
+<?php include ($config->paths->content."{$page->path}page-logic.php"); ?>

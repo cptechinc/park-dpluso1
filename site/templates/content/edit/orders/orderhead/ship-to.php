@@ -4,7 +4,7 @@
     <?php $shiptoid = $order->shiptoid; ?>
 <?php endif ;?>
 
-<legend>Ship-To <?= $order->shiptoid; ?></legend>
+<legend>Ship-To</legend>
 <?php if (100 == 1) : ?>
 	<div class="form-group">
 		<button type="button" class="btn btn-block btn-primary" id="load-shiptos">Load This Customer's Ship-tos</button>
@@ -49,7 +49,7 @@
     	<td>
         	<select class="form-control input-sm ordrhed <?= $formconfig->generate_showrequiredclass('shipstate'); ?> shipto-state" name="shipto-state">
             <option value="">---</option>
-				<?php $states = getstates(); ?>
+				<?php $states = get_states(); ?>
                 <?php foreach ($states as $state) : ?>
                     <?php if ($state['state'] == $order->shipstate) { $selected = 'selected'; } else { $selected = ''; } ?>
                     <option value="<?= $state['state']; ?>" <?= $selected; ?>><?= $state['state'] . ' - ' . $state['name']; ?></option>
@@ -64,7 +64,7 @@
 	<tr>
 		<td class="control-label">Country</td>
 		<td>
-			<?php $countries = getcountries(); if (empty($order->shipcountry)) {$order->set('shipcountry', 'USA');}?>
+			<?php $countries = get_countries(); if (empty($order->shipcountry)) {$order->set('shipcountry', 'USA');}?>
 			<select name="shipto-country" class="form-control input-sm">
 				<?php foreach ($countries as $country) : ?>
 					<?php $selected = ($country['ccode'] == $order->shipcountry) ? 'selected' : ''; ?>

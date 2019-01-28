@@ -123,10 +123,10 @@
 			$itemids = $input->$requestmethod->itemID;
 			$data = array("DBNAME=$config->dplusdbname", 'CARTADDMULTIPLE', "CUSTID=$custID");
 
-			if (DplusWire::wire('modules')->isInstalled('QtyPerCase')) {
+			if (DplusWire::wire('modules')->isInstalled('CaseQtyBottle')) {
 				$case_qtys = $input->$requestmethod->{'case-qty'};
 				$bottle_qtys = $input->$requestmethod->{'bottle-qty'};
-				$qtypercase = DplusWire::wire('modules')->get('QtyPerCase');
+				$qtypercase = DplusWire::wire('modules')->get('CaseQtyBottle');
 				// TODO FIX tHIS for new DATA array
 				$data = $qtypercase->generate_multipleitemdata($data, $itemids, $case_qtys, $bottle_qtys);
 			} else {

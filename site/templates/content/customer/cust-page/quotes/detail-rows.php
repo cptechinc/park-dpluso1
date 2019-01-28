@@ -15,7 +15,9 @@
 <?php foreach ($details as $detail) : ?>
 	<tr class="detail">
 		<td class="text-center">
-			<?= $quotepanel->generate_detailvieweditlink($quote, $detail); ?>
+			<a href="<?= $quotepanel->generate_vieweditdetailURL($quote, $detail); ?>" class="update-line" data-kit="<?= $detail->kititemflag; ?>" data-itemid="<?= $detail->itemid; ?>" data-custid="<?= $quote->custid; ?>" aria-label="View Detail Line">
+				<?= $detail->itemid; ?>
+			</a>
 		</td>
 		<td colspan="2">
 			<?php if (strlen($detail->vendoritemid)) { echo ' '.$detail->vendoritemid."<br>";} ?>
@@ -25,7 +27,17 @@
 		<td class="text-right"><?= intval($detail->quotqty); ?></td>
 		<td class="text-right">$ <?= $page->stringerbell->format_money($detail->quotprice * $detail->quotqty); ?></td>
 		<td></td>
-		<td><?= $quotepanel->generate_loaddplusnoteslink($quote, $detail->linenbr); ?></td>
+		<td>
+			<?php if ($detail->has_notes()) : ?>
+				<a href="<?= $quotepanel->generate_request_dplusnotesURL($quote, $detail->linenbr); ?>" class="load-notes" title="View and Create Quote Notes" data-modal="<?= $quotepanel->modal; ?>">
+					<i class="material-icons md-36" aria-hidden="true">&#xE0B9;</i>
+				</a>
+			<?php else : ?>
+				<a href="<?= $quotepanel->generate_request_dplusnotesURL($quote, $detail->linenbr); ?>" class="load-notes text-muted" title="Create Quote Notes" data-modal="<?= $quotepanel->modal; ?>">
+					<i class="material-icons md-36" aria-hidden="true">&#xE0B9;</i>
+				</a>
+			<?php endif; ?>
+		</td>
 		<td></td>
 		<td></td>
 	</tr>

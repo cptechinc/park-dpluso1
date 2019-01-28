@@ -15,5 +15,7 @@
         <?php if ($item->priceqty6 != "" && $item->priceqty6 != "0") : ?>
             <tr> <td><?= $item->priceqty6; ?></td> <td class="text-right">$ <?= $item->priceprice6; ?></td> </tr>
         <?php endif; ?>
+    <?php else : ?>
+        No data to display
     <?php endif; ?>
 </table>

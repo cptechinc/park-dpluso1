@@ -57,7 +57,7 @@
                     <tr>
                         <td class="control-label">Country</td>
                         <td>
-                            <?php $countries = getcountries(); ?>
+                            <?php $countries = get_countries(); ?>
                             <select name="billto-country" class="form-control input-sm">
                                 <option value="USA">United States</option>
                                 <?php foreach ($countries as $country) : ?>
@@ -105,7 +105,7 @@
                     <tr>
                         <td class="control-label">Country</td>
                         <td>
-                            <?php $countries = getcountries(); ?>
+                            <?php $countries = get_countries(); ?>
                             <select name="shipto-country" class="form-control input-sm">
                                 <option value="USA">United States</option>
                                 <?php foreach ($countries as $country) : ?>

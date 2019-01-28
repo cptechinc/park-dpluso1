@@ -65,7 +65,7 @@ $(function() {
 						get_orderheadresults(ordn, formid, function() {
 							generateurl(function(url) {
 								console.log(url);
-								window.location.href = url;
+								window.location.href = href;
 							});
 						});
 					}

@@ -30,12 +30,12 @@
 
 		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
-				<?php foreach($homepage->and($homepage->children) as $item) : ?>
-                	<?php if ($item->show_in_main_nav == 1) : ?>
-						<?php if ($item->id == $page->rootParent->id) : ?>
-                            <li class="active"><a href="<?php echo $item->url; ?>"><?php echo $item->title; ?></a></li>
+				<?php foreach($homepage->and($homepage->children) as $child) : ?>
+                	<?php if ($child->show_in_main_nav == 1) : ?>
+						<?php if ($child->id == $page->rootParent->id) : ?>
+                            <li class="active"><a href="<?php echo $child->url; ?>"><?php echo $child->title; ?></a></li>
                         <?php else : ?>
-                            <li><a href="<?php echo $item->url; ?>"><?php echo $item->title; ?></a></li>
+                            <li><a href="<?php echo $child->url; ?>"><?php echo $child->title; ?></a></li>
                         <?php endif; ?>
                     <?php endif; ?>
 				<?php endforeach; ?>

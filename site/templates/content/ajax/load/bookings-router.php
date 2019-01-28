@@ -1,7 +1,7 @@
 <?php
-	
+
 	$filteron = $input->urlSegment(2);
-	
+
 	switch ($filteron) {
 		case 'customer':
 			$custID = $sanitizer->text($input->urlSegment(3));
@@ -50,7 +50,7 @@
 			include($page->body);
 		}
 	} else {
-		$config->scripts->append(hashtemplatefile('scripts/libs/raphael.js'));
-		$config->scripts->append(hashtemplatefile('scripts/libs/morris.js'));
+		$config->scripts->append(hash_templatefile('scripts/libs/raphael.js'));
+		$config->scripts->append(hash_templatefile('scripts/libs/morris.js'));
 		include $config->paths->content."common/include-blank-page.php";
 	}

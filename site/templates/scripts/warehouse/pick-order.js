@@ -1,9 +1,19 @@
 $(function() {
+    /**
+	 * The Order of Functions based on Order of Events
+	 * 1. Select / Enter Sales Order
+	 * 2. Change Bin / Change Pallet 
+	 * 3. Finish Item / Exit Order
+	 * 4. Remove Sales Order Locks
+	 */
+
+/////////////////////////////////////
+// 1. Select / Enter Sales Order
+////////////////////////////////////
     $("body").on("submit", ".sales-order-entry-form", function(e) {
         e.preventDefault();
         var form = $(this);
         form.postform({}, function() {
-            console.log(config.urls.warehouse.json.session);
             $.getJSON(config.urls.warehouse.json.session, function(json) {
                 if (json.response.session.promptfunction.toUpperCase() == 'Y') {
                     swal({
@@ -36,59 +46,14 @@ $(function() {
         });
     });
     
-    $("body").on("click", ".finish-item", function(e) {
+/////////////////////////////////////
+// 2. Change Bin / Change Pallet 
+////////////////////////////////////
+    $("body").on("change", ".change-pallet", function(e) {
         e.preventDefault();
-        var button = $(this);
-        
-        if (pickitem.item.qty.remaining > 0) {
-            swal({
-                title: 'Are you sure?',
-                text: "You have not met the Quantity Requirments",
-                type: 'warning',
-                showCancelButton: true,
-                confirmButtonClass: 'btn btn-success',
-                cancelButtonClass: 'btn btn-danger',
-                buttonsStyling: false,
-                confirmButtonText: 'Yes!'
-            }).then(function (result) {
-                console.log(result);
-                if (result) {
-                    window.location.href = button.attr('href');
-                }
-            }).catch(swal.noop);
-        } else if (pickitem.item.qty.remaining < 0) {
-            swal({
-                title: 'Are you sure?',
-                text: "You have picked too much",
-                type: 'warning',
-                confirmButtonClass: 'btn btn-success',
-                buttonsStyling: false,
-                confirmButtonText: 'Continue'
-            });
-        } else {
-            window.location.href = button.attr('href');
-        }
-    });
-    
-    $("body").on("click", ".exit-order", function(e) {
-        e.preventDefault();
-        var button = $(this);
-        
-        swal({
-            title: 'Are you sure?',
-            text: "You are trying to leave this order",
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonClass: 'btn btn-success',
-            cancelButtonClass: 'btn btn-danger',
-            buttonsStyling: false,
-            confirmButtonText: 'Yes!'
-        }).then(function (result) {
-            console.log(result);
-            if (result) {
-                window.location.href = button.attr('href');
-            }
-        }).catch(swal.noop);
+        var select = $(this);
+        var form = select.parent('form');
+        form.submit();
     });
     
     $("body").on("click", ".change-bin", function(e) {
@@ -115,6 +80,75 @@ $(function() {
         }
     });
     
+/////////////////////////////////////
+// 3. Finish Item / Exit Order 
+////////////////////////////////////
+    $("body").on("click", ".finish-item", function(e) {
+        e.preventDefault();
+        var button = $(this);
+        
+        if (pickitem.item.qty.expected < pickitem.item.qty.picked) { 
+            swal({
+                title: 'Bin Error',
+                text: "You have picked more than expected bin qty",
+                type: 'warning',
+                confirmButtonClass: 'btn btn-success',
+                buttonsStyling: false,
+                confirmButtonText: 'Continue'
+            });
+        } else if (pickitem.item.qty.remaining < 0) {
+            swal({
+                title: 'Are you sure?',
+                text: "You have picked too much",
+                type: 'warning',
+                confirmButtonClass: 'btn btn-success',
+                buttonsStyling: false,
+                confirmButtonText: 'Continue'
+            });
+        } else if (pickitem.item.qty.remaining > 0) {
+            swal({
+                title: 'Are you sure?',
+                text: "You have not met the Quantity Requirments",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonClass: 'btn btn-success',
+                cancelButtonClass: 'btn btn-danger',
+                buttonsStyling: false,
+                confirmButtonText: 'Yes!'
+            }).then(function (result) {
+                if (result) {
+                    window.location.href = button.attr('href');
+                }
+            }).catch(swal.noop);
+        } else {
+            window.location.href = button.attr('href');
+        }
+    });
+    
+    $("body").on("click", ".exit-order", function(e) {
+        e.preventDefault();
+        var button = $(this);
+        
+        swal({
+            title: 'Are you sure?',
+            text: "You are trying to leave this order",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonClass: 'btn btn-success',
+            cancelButtonClass: 'btn btn-danger',
+            buttonsStyling: false,
+            confirmButtonText: 'Yes!'
+        }).then(function (result) {
+            console.log(result);
+            if (result) {
+                window.location.href = button.attr('href');
+            }
+        }).catch(swal.noop);
+    });
+    
+    /////////////////////////////////////
+    // 4. Remove Sales Order Locks
+    ////////////////////////////////////
     $("body").on("click", ".remove-sales-order-locks", function(e) {
         e.preventDefault();
         
@@ -137,18 +171,12 @@ $(function() {
 				var ordn = input;
                 var pageurl = URI();
                 var uri = URI(config.urls.warehouse.picking.sales_order.redir.redir);
-                uri.addQuery('action', 'remove-order-locks').addQuery('ordn', ordn);
+                uri.addQuery('action', 'remove-order-locks').addQuery('ordn', ordn).addQuery('page', pageurl.toString());
                 window.location.href = uri.toString();
 			}
 		}).catch(swal.noop);
     });
-    
-    $("body").on("change", ".change-pallet", function(e) {
-        e.preventDefault();
-        var select = $(this);
-        var form = select.parent('form');
-        form.submit();
-    });
+
 });
 
 function swal_changebin() {

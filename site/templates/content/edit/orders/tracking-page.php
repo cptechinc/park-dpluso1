@@ -1,3 +1,5 @@
+<?php use Dplus\Dpluso\ScreenFormatters\TableScreenMaker; ?>
+
 <div class="tracking">
     <h2>Tracking</h2>
     <table class="table table-striped">
@@ -7,7 +9,7 @@
         <tbody>
             <?php $trackings = get_ordertracking(session_id(), $ordn); ?>
             <?php foreach($trackings as $tracking) : ?>
-            	<?php $carrier = $tracking['servtype']; $link = ""; $link = gettracklink($tracking['servtype'], $tracking['tracknbr']); ?>
+            	<?php $carrier = $tracking['servtype']; $link = ""; $link = TableScreenMaker::generate_trackingurl($tracking['servtype'], $tracking['tracknbr']); ?>
                 <tr class="tracking">
                     <td><b>Shipped:</b>  <?php echo $carrier; ?></td>
                     <td><b>Tracking No.:</b>

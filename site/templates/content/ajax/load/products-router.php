@@ -26,7 +26,7 @@
 					$addtype = $input->urlSegment(4);
 					switch ($addtype) {
 						case 'cart':
-				            $custID = get_custidfromcart(session_id(), false);
+							$custID = CartQuote::get_cartcustid(session_id());
 				            $formaction = $config->pages->cart."redir/";
 				            $ordn = '';
 				            break;
@@ -49,8 +49,8 @@
 			$page->body = $config->paths->content.'products/vendor/choose-vendor.php';
 			break;
 		case 'quick-entry-search':
-			if ($modules->isInstalled('QtyPerCase')) {
-				$page->body = $config->paths->siteModules.'QtyPerCase/content/item-search/quick-entry-search-results.php';
+			if ($modules->isInstalled('CaseQtyBottle')) {
+				$page->body = $config->paths->siteModules.'CaseQtyBottle/content/item-search/quick-entry-search-results.php';
 			} else {
 				$page->body = $config->paths->content.'products/ajax/load/quick-entry-search-results.php';
 			}

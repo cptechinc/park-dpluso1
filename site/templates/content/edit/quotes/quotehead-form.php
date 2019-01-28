@@ -17,28 +17,34 @@
     <div class="row">
         <div class="col-sm-6">
             <div class="text-center form-group">
-        		<button type="submit" class="btn btn-success btn-block"><i class="glyphicon glyphicon-floppy-disk"></i> Save</button>
+        		<button type="submit" class="btn btn-success btn-block"><i class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></i> Save</button>
         	</div>
         </div>
         <div class="col-sm-6">
             <div class="text-right form-group">
-				<?php if ($editquotedisplay->canedit) : ?>
+				<?php if ($quote->can_edit()) : ?>
 	        		<button type="button" class="btn btn-success text-center" onclick="$('#quotedetail-link').click()"><span class="glyphicon glyphicon-triangle-right"></span> Details Page</button>
 				<?php endif; ?>
 	        </div>
         </div>
     </div>
     <hr>
-    <?php if (!$editquotedisplay->canedit) : ?>
-         <?= $editquotedisplay->generate_confirmationlink($quote); ?>
+    <?php if (!$quote->can_edit()) : ?>
+		<a href="<?= $editquotedisplay->generate_unlockURL($quote); ?>" class="btn btn-block btn-success">
+			<i class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></i> Finished with quote
+		</a>
     <?php else : ?>
         <?php if (($config->pages->orderquote.'?qnbr='.$qnbr) != $config->filename && has_dpluspermission($user->loginid, 'eso')) : ?>
             <div class="form-group">
-                <?= $editquotedisplay->generate_sendtoorderlink($quote); ?>
+				<a href="<?= $editquotedisplay->generate_orderquoteURL($quote); ?>" class="btn btn-default btn-block">
+					<i class="fa fa-paper-plane-o" aria-hidden="true"></i> Send To Order
+				</a>
             </div>
         <?php endif; ?>
 		<div class="text-center">
-            <?= $editquotedisplay->generate_saveunlockbutton($quote); ?>
+			<button type="button" class="btn btn-block btn-emerald save-unlock-quotehead" data-form="#quotehead-form">
+				<i class="fa fa-unlock" aria-hidden="true"></i> Save and Exit
+			</button>
 		</div>
     <?php endif; ?>
 </form>

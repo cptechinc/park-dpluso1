@@ -1,30 +1,20 @@
 <?php
-	/**
-	* NOTES REDIRECT
-	* @param string $action
-	*
-	*/
+	// Figure out page request method, then grab needed inputs
+	$requestmethod = $input->requestMethod('POST') ? 'post' : 'get';
+	$action = $input->$requestmethod->text('action');
+
+	// Set up filename and sessionID in case this was made through cURL
+	$filename = ($input->$requestmethod->sessionID) ? $input->$requestmethod->text('sessionID') : session_id();
+	$sessionID = ($input->$requestmethod->sessionID) ? $input->$requestmethod->text('sessionID') : session_id();
+
+	$session->fromredirect = $page->url;
+
 	$date = date('Ymd');
 	$time = date('His');
 
-	$action = ($input->post->action ? $input->post->text('action') : $input->get->text('action'));
-
-	$session->{'from-redirect'} = $page->url;
-	if ($input->post->sessionID) {
-		$filename = $input->post->text('sessionID');
-		$sessionID = $input->post->text('sessionID');
-	} elseif ($input->get->sessionID) {
-		$filename = $input->get->text('sessionID');
-		$sessionID = $input->get->text('sessionID');
-	} else {
-		$filename = session_id();
-		$sessionID = session_id();
-	}
-	$session->action = $action;
-
 	/**
 	* NOTES REDIRECT
-	*
+	* @param string $action
 	*
 	*
 	*

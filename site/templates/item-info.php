@@ -21,13 +21,13 @@
     			$shipID = $input->get->text('shipID');
             }
         }
-        
-        $config->scripts->append(hashtemplatefile('scripts/libs/raphael.js'));
-        $config->scripts->append(hashtemplatefile('scripts/libs/morris.js'));
-        $config->scripts->append(hashtemplatefile('scripts/libs/datatables.js'));
-    	$config->scripts->append(hashtemplatefile('scripts/ii/item-functions.js'));
-    	$config->scripts->append(hashtemplatefile('scripts/ii/item-info.js'));
-        
+
+        $config->scripts->append(hash_templatefile('scripts/libs/raphael.js'));
+        $config->scripts->append(hash_templatefile('scripts/libs/morris.js'));
+        $config->scripts->append(hash_templatefile('scripts/libs/datatables.js'));
+    	$config->scripts->append(hash_templatefile('scripts/ii/item-functions.js'));
+    	$config->scripts->append(hash_templatefile('scripts/ii/item-info.js'));
+
         include $config->paths->content."common/include-toolbar-page.php";
     } else {
         include $config->paths->content."common/permission-denied-page.php";

@@ -13,7 +13,7 @@
                 <tr>
                     <td>Customer:</td>
                     <td>
-                        <a href="<?= $contact->generate_customerurl(); ?>" target="_blank">
+                        <a href="<?= $contact->generate_customerURL(); ?>" target="_blank">
                             <?= $contact->custid. ' - '. $contact->name ?> <i class="glyphicon glyphicon-share" aria-hidden="true"></i>
                         </a>
                     </td>

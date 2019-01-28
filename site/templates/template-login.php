@@ -4,7 +4,7 @@
 			<div class="col-sm-6 col-md-offset-3">
 			   <div class="sign-in">
 					<p class="text-center"><img src="<?= $appconfig->companylogo->url; ?>" alt="<?= $appconfig->companydisplayname.' logo'; ?>"></p>
-					<h2 class="text-center"><?= $appconfig->companydisplayname; ?> DistPlus</h2>
+					<h2 class="text-center"><?= $appconfig->companydisplayname; ?></h2>
 					<?php if (!$user->loggedin) : ?>
 						<?php $errormsg = get_loginerrormsg(session_id()); ?>
 						<?php if (!empty($errormsg)) : ?>

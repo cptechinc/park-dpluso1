@@ -1,17 +1,17 @@
 <?php
-	/**
-	* CUSTOMER REDIRECT
-	* @param string $action
-	*
-	*/
+	// Figure out page request method, then grab needed inputs
 	$requestmethod = $input->requestMethod('POST') ? 'post' : 'get';
 	$action = $input->$requestmethod->text('action');
+
+	// Set up filename and sessionID in case this was made through cURL
+	$filename = ($input->$requestmethod->sessionID) ? $input->$requestmethod->text('sessionID') : session_id();
+	$sessionID = ($input->$requestmethod->sessionID) ? $input->$requestmethod->text('sessionID') : session_id();
+
+	// Set up custID & shipID for requests
 	$custID = $input->$requestmethod->text('custID');
 	$shipID = $input->$requestmethod->text('shipID');
 
-	$session->{'from-redirect'} = $page->url;
-
-	$filename = session_id();
+	$session->fromredirect = $page->url;
 
 	/**
 	* CUSTOMER REDIRECT

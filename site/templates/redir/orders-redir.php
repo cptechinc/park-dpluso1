@@ -1,13 +1,14 @@
 <?php
-	/**
-	* ORDERS REDIRECT
-	* @param string $action
-	*
-	* */
-
+	use Dplus\Content\Paginator;
+	use Dplus\Dpluso\OrderDisplays\SalesOrderPanel;
+	
+	// Figure out page request method, then grab needed inputs
 	$requestmethod = $input->requestMethod('POST') ? 'post' : 'get';
 	$action = $input->$requestmethod->text('action');
 	
+	// Set up filename and sessionID in case this was made through cURL
+	$filename = ($input->$requestmethod->sessionID) ? $input->$requestmethod->text('sessionID') : session_id();
+	$sessionID = ($input->$requestmethod->sessionID) ? $input->$requestmethod->text('sessionID') : session_id();
 
 	// USED FOR MAINLY ORDER LISTING FUNCTIONS
 	$pagenumber = (!empty($input->get->page) ? $input->get->int('page') : 1);
@@ -27,14 +28,15 @@
 	}
 
 	$linkaddon = $sortaddon . $filteraddon;
-	$session->{'from-redirect'} = $page->url;
+	$session->fromredirect = $page->url;
 	$session->remove('order-search');
+	$session->remove('panelorigin');
+	$session->remove('paneloriginpage');
 	$session->filters = $filteraddon;
-	$filename = session_id();
 
 	/**
 	* ORDERS REDIRECT
-	*
+	* @param string $action
 	*
 	*
 	*
@@ -139,11 +141,18 @@
 		case 'get-order-edit':
 			$ordn = $input->get->text('ordn');
 			$custID = SalesOrderHistory::is_saleshistory($ordn) ? SalesOrderHistory::find_custid($ordn) : SalesOrder::find_custid($ordn);
-			$data = array('DBNAME' => $config->dplusdbname, 'ORDRDET' => $ordn);
-			if ($input->get->edit) {
+			$data = array('DBNAME' => $config->dplusdbname, 'ORDRDET' => $ordn, 'CUSTID' => $custID);
+			//if ($input->get->edit) {
 				$data['LOCK'] = false;
-			}
+			//}
 			$session->loc = "{$config->pages->editorder}?ordn=$ordn";
+			if ($input->get->orderorigin) {
+				$session->panelorigin = 'orders';
+				$session->paneloriginpage = $input->get->text('orderorigin');
+				if ($input->get->custID) {
+					$session->panelcustomer = $input->get->text('custID');
+				}
+			}
 			break;
 		case 'get-order-print':
 			$ordn = $input->get->text('ordn');
@@ -155,7 +164,7 @@
 			$ordn = $input->get->text('ordn');
 			$custID = SalesOrderHistory::is_saleshistory($ordn) ? SalesOrderHistory::find_custid($ordn) : SalesOrder::find_custid($ordn);
 			$data = array('DBNAME' => $config->dplusdbname, 'ORDRDET' => $ordn, 'CUSTID' => $custID);
-			
+
 			if ($input->$requestmethod->page) {
 				$session->loc = $input->$requestmethod->text('page');
 			} else {
@@ -174,15 +183,15 @@
 					}
 				}
 				$url->query = "ordn=$ordn$linkaddon";
-				Dplus\Content\Paginator::paginate_purl($url, $pagenumber, $insertafter);
+				Paginator::paginate_purl($url, $pagenumber, $insertafter);
 				$session->loc = $url->getUrl();
 			}
-			
+
 			break;
 		case 'get-order-tracking':
 			$ordn = $input->get->text('ordn');
 			$data = array('DBNAME' => $config->dplusdbname, 'ORDRTRK' => $ordn);
-			
+
 			if ($input->get->ajax) {
 				$session->loc = $config->pages->ajax."load/order/tracking/?ordn=".$ordn;
 			} elseif ($input->get->page == 'edit') {
@@ -204,7 +213,7 @@
 				}
 				$url->query = "ordn=$ordn$linkaddon";
 				$url->query->set('show', 'tracking');
-				Dplus\Content\Paginator::paginate_purl($url, $pagenumber, $insertafter);
+				Paginator::paginate_purl($url, $pagenumber, $insertafter);
 				$session->loc = $url->getUrl();
 			}
 			break;
@@ -234,7 +243,7 @@
 				if ($input->get->itemdoc) {
 					$url->query->set('itemdoc', $input->get->text('itemdoc'));
 				}
-				Dplus\Content\Paginator::paginate_purl($url, $pagenumber, $insertafter);
+				Paginator::paginate_purl($url, $pagenumber, $insertafter);
 				$session->loc = $url->getUrl();
 			}
 			$data = array('DBNAME' => $config->dplusdbname, 'ORDDOCS' => $ordn);
@@ -308,12 +317,12 @@
 			}
 			break;
 		case 'add-to-order':
-			$itemID = $input->post->text('itemID');
-			$qty = determine_qty($input, $requestmethod, $itemID); // TODO MAKE IN CART DETAIL
-			$ordn = $input->post->text('ordn');
+			$itemID = $input->$requestmethod->text('itemID');
+			$qty = determine_qty($input, $requestmethod, $itemID);
+			$ordn = $input->$requestmethod->text('ordn');
 			$custID = SalesOrder::find_custid($ordn);
 			$data = array('DBNAME' => $config->dplusdbname, 'SALEDET' => false, 'ORDERNO' => $ordn, 'ITEMID' => $itemID, 'QTY' => "$qty", 'CUSTID' => $custID);
-			$session->loc = $input->post->page;
+			$session->loc = $input->$requestmethod->page;
 			$session->editdetail = true;
 			break;
 		case 'add-multiple-items':
@@ -323,15 +332,18 @@
 			$data = array("DBNAME=$config->dplusdbname", 'ORDERADDMULTIPLE', "ORDERNO=$ordn");
 			$data = writedataformultitems($data, $itemids, $qtys);
             $session->loc = $config->pages->edit."order/?ordn=".$ordn;
+			$session->editdetail = true;
 			break;
 		case 'add-nonstock-item': // FIX
-			$ordn = $input->post->text('ordn');
-			$qty = $input->post->text('qty');
+			$ordn = $input->$requestmethod->text('ordn');
+			$qty = $input->$requestmethod->text('qty');
 			$orderdetail = new SalesOrderDetail();
 			$orderdetail->set('sessionid', session_id());
 			$orderdetail->set('linenbr', '0');
 			$orderdetail->set('recno', '0');
-			$orderdetail->set('orderno', session_id());
+			$orderdetail->set('orderno', $ordn);
+			$orderdetail->set('itemid', 'N');
+			$orderdetail->set('vendoritemid', $input->post->text('itemID'));
 			$orderdetail->set('vendorid', $input->post->text('vendorID'));
 			$orderdetail->set('shipfromid', $input->post->text('shipfromID'));
 			$orderdetail->set('vendoritemid', $input->post->text('itemID'));
@@ -345,6 +357,11 @@
 			$orderdetail->set('ponbr', $input->post->text('ponbr'));
 			$orderdetail->set('poref', $input->post->text('poref'));
 			$orderdetail->set('spcord', 'S');
+			$orderdetail->set('date', date('Ymd'));
+			$orderdetail->set('time', date('His'));
+			$orderdetail->set('sublinenbr', '0');
+
+			$session->sql = $orderdetail->save(true);
 			$orderdetail->save();
 
 			$data = array('DBNAME' => $config->dplusdbname, 'SALEDET' => false, 'ORDERNO' => $ordn, 'LINENO' => '0', 'ITEMID' => 'N', 'QTY' => $qty, 'CUSTID' => $custID);

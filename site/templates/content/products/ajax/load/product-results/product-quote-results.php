@@ -61,14 +61,14 @@
 				<?php endif; ?>
 				<input type="hidden" name="qnbr" value="<?= $qnbr; ?>">
 				<table class="table table-condensed no-bottom ">
-					<tr> <td>UoM</td> <td><?= $item->unit; ?></td> </tr>
+					<tr> <td>UoM:</td> <td class="text-right"><?= $item->unit; ?></td> </tr>
 					<?php if ($appconfig->child('name=sales-orders')->show_listprice) : ?>
-						<tr> <td>List Price</td> <td class="text-right">$ <?= $item->listprice; ?></td> </tr>
+						<tr> <td>List Price:</td> <td class="text-right">$ <?= $item->listprice; ?></td> </tr>
 					<?php endif; ?>
-					<tr> <td>Price</td> <td class="text-right">$ <?= $item->price;?></td> </tr>
-					<tr> <td>In Stock</td> <td class="text-right"><?= $item->qty; ?></td> </tr>
-					<tr class="item-whse-row"><td>Whse:</td> <td class="item-whse-val"></td></tr>
-					<tr> <td>Qty</td> <td class="text-right"><input type="text" class="form-control input-sm text-right qty" name="qty"></td> </tr>
+					<tr> <td>Price:</td> <td class="text-right">$ <?= $item->price;?></td> </tr>
+					<tr> <td>In Stock:</td> <td class="text-right"><?= $item->get_totalavailable(); ?></td> </tr>
+					<tr class="item-whse-row"><td>Whse:</td> <td class="item-whse-val text-right"></td></tr>
+					<tr> <td>Qty:</td> <td class="text-right"><input type="text" class="form-control input-sm text-right qty" name="qty"></td> </tr>
 					<tr>
 						<td colspan="2" class="text-center">
 							<button type="submit" class="btn btn-primary btn-sm">

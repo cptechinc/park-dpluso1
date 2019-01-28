@@ -272,6 +272,10 @@
 	.form-control.qty-sm { width: 50px; }
 	.form-control.price {width: 200px;}
 	form.inline-block{ display: inline-block; }
+	.form-control-inline {
+		width: auto;
+		display: inline-block;
+	}
 	.form-control.inline, .display-inline-block {display: inline-block;}
 	input.underlined {
 		background: transparent;

@@ -17,12 +17,17 @@
 			$qnbr = $input->get->text('qnbr');
             $page->title = 'Add multiple items for Quote #'. $qnbr;
 			$custID = get_custidfromquote(session_id(), $qnbr);
-			$formaction = $config->pages->quotes."redir/";
+
+            if ($input->get->order) {
+                $formaction = $config->pages->quotes."redir/?order=true";
+            } else {
+                $formaction = $config->pages->quotes."redir/";
+            }
             break;
     }
 
-    if ($modules->isInstalled('QtyPerCase')) {
-        $page->body = $config->paths->siteModules.'QtyPerCase/content/item-search/add-detail/add-multiple-form.php';
+    if ($modules->isInstalled('CaseQtyBottle')) {
+        $page->body = $config->paths->siteModules.'CaseQtyBottle/content/item-search/add-detail/add-multiple-form.php';
     } else {
         $page->body = $config->paths->content."products/ajax/load/add-multiple/add-multiple-item-form.php";
     }

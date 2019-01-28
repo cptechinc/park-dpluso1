@@ -22,10 +22,10 @@
                         <td>
                             <button class="btn btn-sm btn-primary" type="button" onclick="<?= $cust->generate_iifunction($function); ?>"> <?= $cust->custid; ?> </button>
                         </td>
-                        <td><?= $page->stringerbell->highlight($cust->name, $input->get->q); ?></td>
-                        <td><?= $page->stringerbell->highlight($cust->shiptoid, $input->get->q); ?></td>
-                        <td><?= $page->stringerbell->highlight($cust->generate_address(), $input->get->q); ?></td>
-                        <td><a href="tel:<?= $cust->phone; ?>" title="Click To Call"><?= $page->stringerbell->highlight($cust->phone, $input->get->q); ?></a></td>
+                        <td><?= $page->bootstrap->highlight($cust->name, $input->get->q); ?></td>
+                        <td><?= $page->bootstrap->highlight($cust->shiptoid, $input->get->q); ?></td>
+                        <td><?= $page->bootstrap->highlight($cust->generate_address(), $input->get->q); ?></td>
+                        <td><a href="tel:<?= $cust->phone; ?>" title="Click To Call"><?= $page->bootstrap->highlight($cust->phone, $input->get->q); ?></a></td>
                     </tr>
                 <?php endforeach; ?>
             <?php else : ?>

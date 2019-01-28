@@ -32,7 +32,7 @@
 			<tr>
 				<td class="control-label">Previously Picked</td> 
 				<td class="text-right"><?= $pickitem->qtypulled; ?> Eaches</td>
-				<td><?= $pickitem->get_qtycasedescription($pickitem->qtypulled); ?></td>
+				<td class="text-right"><?= $pickitem->get_qtycasedescription($pickitem->qtypulled); ?></td>
 			</tr>
 		<?php endif; ?>
 		<tr>
@@ -40,7 +40,15 @@
 			<td class="text-right"><?= $pickitem->get_userpickedtotal(); ?> Eaches</td>
 			<td class="text-right"><?= $pickitem->get_qtycasedescription($pickitem->get_userpickedtotal()); ?></td>
 		</tr>
-		<tr class="<?= $pickitem->has_pickedtoomuch() ? 'bg-warning' : (($pickitem->has_qtyremaining()) ? '' : 'bg-success'); ?>">
+		<?php 
+			$bgcolor = ''; 
+			if ($pickitem->has_pickedtoomuch() || $pickitem->has_pickedmorethanbinqty()) {
+				$bgcolor = "bg-warning";
+			} elseif (!$pickitem->has_qtyremaining()) {
+				$bgcolor = "bg-success";
+			}
+		?>
+		<tr class="<?= $bgcolor; ?>">
 			<td class="control-label">Qty Remaining</td> 
 			<td class="text-right"><?= $pickitem->get_qtyremaining(); ?> Eaches</td>
 			<td class="text-right"><?= $pickitem->get_qtycasedescription($pickitem->get_qtyremaining()); ?></td>

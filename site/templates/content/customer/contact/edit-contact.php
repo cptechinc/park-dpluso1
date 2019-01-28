@@ -1,5 +1,5 @@
 <div class="form-group">
-	<a href="<?= $contact->generate_customerurl(); ?>" class="btn btn-primary"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Go To <?= $contact->get_customername()."'s"; ?> Page </a>
+	<a href="<?= $contact->generate_customerURL(); ?>" class="btn btn-primary"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Go To <?= $contact->get_customername()."'s"; ?> Page </a>
 </div>
 <div class="form-group">
 	<a href="<?= $contact->generate_contacturl(); ?>" class="btn btn-success"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Go To <?= $contact->contact."'s"; ?> Page </a>
@@ -14,7 +14,7 @@
 				<tr>
 					<td>Customer:</td>
 					<td>
-						<a href="<?= $contact->generate_customerurl(); ?>" target="_blank">
+						<a href="<?= $contact->generate_customerURL(); ?>" target="_blank">
 							<strong><?= $contact->custid. ' - '. $contact->name ?> <i class="glyphicon glyphicon-share" aria-hidden="true"></i></strong>
 						</a>
 					</td>
@@ -121,7 +121,7 @@
 					<tr>
 						<td>Customer:</td>
 						<td>
-							<a href="<?= $contact->generate_customerurl(); ?>" target="_blank">
+							<a href="<?= $contact->generate_customerURL(); ?>" target="_blank">
 								<strong><?= $contact->custid. ' - '. $contact->name ?> <i class="glyphicon glyphicon-share" aria-hidden="true"></i></strong>
 							</a>
 						</td>

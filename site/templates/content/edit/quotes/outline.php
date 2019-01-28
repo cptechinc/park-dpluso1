@@ -1,5 +1,6 @@
 <?php
     $activetab = 'quotehead';
+    
     if ($input->get->show) { $activetab = $input->get->text('show'); }
     $tabs = array(
         'quotehead' => array('href' => 'quotehead', "id" => 'quotehead-link', 'text' => 'Quote Header', 'tabcontent' => $config->paths->content.'edit/quotes/quotehead-form.php'),
@@ -8,11 +9,11 @@
         'actions' => array('href' => 'actions', "id" => 'actions-link', 'text' => 'Actions', 'tabcontent' => $config->paths->content.'edit/quotes/actions-page.php')
     );
 
-    if ($modules->isInstalled('QtyPerCase')) {
-        $tabs['details']['tabcontent'] = $config->paths->siteModules.'QtyPerCase/content/edit/quote/details/details-page.php';
+    if ($modules->isInstalled('CaseQtyBottle')) {
+        $tabs['details']['tabcontent'] = $config->paths->siteModules.'CaseQtyBottle/content/edit/quote/details/details-page.php';
     }
 ?>
-<?php if (!$editquotedisplay->canedit) : ?>
+<?php if (!$quote->can_edit()) : ?>
    <div class="row">
        <div class="col-xs-12"><?php include $config->paths->content.'edit/quotes/read-only-msg.php'; ?></div>
     </div>

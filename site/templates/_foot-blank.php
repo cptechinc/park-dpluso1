@@ -1,3 +1,4 @@
+		<?php include $config->paths->content.'common/phpjs/js-config.js.php'; ?>
 		<?php foreach($config->scripts->unique() as $script) : ?>
         	<script src="<?php echo $script; ?>"></script>
         <?php endforeach; ?>

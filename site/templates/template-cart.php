@@ -8,13 +8,13 @@
         $itemlookup->set_customer($custID, $shipID);
         $page->pagetitle = "Quick Entry for ".Customer::get_customernamefromid($custID);
         $noteurl = $config->pages->notes.'redir/?action=get-cart-notes';
-        $config->scripts->append(hashtemplatefile('scripts/pages/cart.js'));
-    	$config->scripts->append(hashtemplatefile('scripts/edit/edit-pricing.js'));
-        
-        if ($modules->isInstalled('QtyPerCase')) {
-            $config->scripts->append(hash_modulefile('QtyPerCase/js/quick-entry.js'));
+        $config->scripts->append(hash_templatefile('scripts/pages/cart.js'));
+    	$config->scripts->append(hash_templatefile('scripts/edit/edit-pricing.js'));
+
+        if ($modules->isInstalled('CaseQtyBottle')) {
+            $config->scripts->append(hash_modulefile('CaseQtyBottle/js/quick-entry.js'));
         } else {
-            $config->scripts->append(hashtemplatefile('scripts/edit/quick-entry.js'));
+            $config->scripts->append(hash_templatefile('scripts/edit/quick-entry.js'));
         }
     	$page->body = $config->paths->content.'cart/cart-outline.php';
     } else {

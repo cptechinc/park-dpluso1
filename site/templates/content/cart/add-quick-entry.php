@@ -6,7 +6,7 @@
 			<div class="col-md-4 form-group sm-padding">
 				<span class="detail-line-field-name">Item/Description:</span>
 				<span class="detail-line-field numeric">
-					<input class="form-control input-xs underlined" type="text" name="itemID" placeholder="Item ID">
+					<input class="form-control input-xs underlined" type="text" name="itemID" placeholder="Item ID" autofocus>
 				</span>
 			</div>
 			<div class="col-md-1 form-group sm-padding"> </div>

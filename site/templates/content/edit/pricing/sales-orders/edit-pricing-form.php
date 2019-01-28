@@ -59,11 +59,11 @@
 		<div class="col-sm-4 item-form">
 			<h4>Current Price</h4>
 			<?php
-				if ($modules->isInstalled('QtyPerCase')) {
+				if ($modules->isInstalled('CaseQtyBottle')) {
 					if ($appconfig->allow_changeprice) {
-						include $config->paths->siteModules.'QtyPerCase/content/edit/pricing/sales-orders/tables/price-edit-table.php';
+						include $config->paths->siteModules.'CaseQtyBottle/content/edit/pricing/sales-orders/tables/price-edit-table.php';
 					} else {
-						include $config->paths->siteModules.'QtyPerCase/content/edit/pricing/sales-orders/tables/price-static-table.php';
+						include $config->paths->siteModules.'CaseQtyBottle/content/edit/pricing/sales-orders/tables/price-static-table.php';
 					}
 				} else {
 					if ($appconfig->allow_changeprice) {
@@ -119,7 +119,7 @@
 						<td>Ship-from</td>
 						<td>
 							<select name="shipfromID" class="form-control input-sm" id="">
-								<?php $shipfroms = getvendorshipfroms($linedetail->vendorid, false); ?>
+								<?php $shipfroms = get_vendorshipfroms($linedetail->vendorid, false); ?>
 								<?php foreach ($shipfroms as $shipfrom) : ?>
 									<option value="<?= $shipfrom['shipfrom']; ?>" <?php if ($shipfrom['shipfrom'] == $linedetail->shipfromid) {echo 'selected';} ?>><?= $shipfrom['shipfrom'].' - '.$shipfrom['name']; ?></option>
 								<?php endforeach; ?>

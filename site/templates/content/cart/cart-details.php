@@ -79,15 +79,27 @@
 						<a href="<?= $config->pages->ajax."load/view-detail/cart/?line=".$detail->linenbr; ?>" class="h3 view-item-details detail-line-icon" data-itemid="<?= $detail->itemid; ?>" data-kit="<?= $detail->kititemflag; ?>" data-modal="#ajax-modal">
 							<i class="fa fa-info-circle"></i>
 						</a>
-						<?= $cartdisplay->generate_loaddplusnoteslink($cart, $detail->linenbr); ?>
+						<?php if ($detail->has_notes()) : ?>
+							<a href="<?= $cartdisplay->generate_request_dplusnotesURL($cart, $detail->linenbr); ?>" class="load-notes" title="View and Create Quote Notes" data-modal="<?= $cartdisplay->modal; ?>">
+								<i class="material-icons md-36" aria-hidden="true">&#xE0B9;</i>
+							</a>
+						<?php else : ?>
+							<a href="<?= $cartdisplay->generate_request_dplusnotesURL($cart, $detail->linenbr); ?>" class="load-notes text-muted" title="Create Quote Notes" data-modal="<?= $cartdisplay->modal; ?>">
+								<i class="material-icons md-36" aria-hidden="true">&#xE0B9;</i>
+							</a>
+						<?php endif; ?>
 					</div>
 					<div class="col-xs-6 sm-padding">
 						<h4 class="visible-xs-block">Edit</h4>
 						<button type="submit" name="button" class="btn btn-sm btn-info detail-line-icon" title="Save Changes">
 							<span class="fa fa-floppy-o"></span> <span class="sr-only">Save Line</span>
 						</button>
-						<?= $cartdisplay->generate_detailvieweditlink($cart, $detail); ?>
-						<a href="<?= $cartdisplay->generate_detaildeleteurl($cart, $detail); ?>" class="btn btn-sm btn-danger detail-line-icon">
+						<a href="<?= $cartdisplay->generate_vieweditdetailURL($cart, $detail); ?>" class="update-line" data-kit="<?= $detail->kititemflag; ?>" data-itemid="<?= $detail->itemid; ?>" data-custid="<?= $cart->custid; ?>" aria-label="View Detail Line">
+							<button class="btn btn-sm btn-warning detail-line-icon">
+								<span class="fa fa-pencil"></span>
+							</button>
+						</a>
+						<a href="<?= $cartdisplay->generate_removedetailURL($cart, $detail); ?>" class="btn btn-sm btn-danger detail-line-icon">
 							<span class="glyphicon glyphicon-trash"></span>
 						</a>
 					</div>

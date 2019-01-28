@@ -7,20 +7,18 @@
         <link rel="shortcut icon" href="<?php echo $config->urls->files."images/ddplus.ico"; ?>">
         <!--
         <link rel="icon" href="<?php //echo $config->urls->files; ?>images/park-icon.ico" type="image/x-icon">
-		<link rel="apple-touch-icon" href="<?php //echo $config->urls->files; ?>images/park-icon.png"> 
+		<link rel="apple-touch-icon" href="<?php //echo $config->urls->files; ?>images/park-icon.png">
 		-->
 		<meta name="description" content="<?php echo $page->summary; ?>" />
         <?php foreach($config->styles->unique() as $css) : ?>
         	<link rel="stylesheet" type="text/css" href="<?php echo $css; ?>" />
         <?php endforeach; ?>
 
-        <script src="<?= hashtemplatefile('scripts/libs/jquery.js'); ?>"></script>
-		<script src="<?= hashtemplatefile('scripts/libs/moment.js'); ?>"></script>
+        <script src="<?= hash_templatefile('scripts/libs/jquery.js'); ?>"></script>
+		<script src="<?= hash_templatefile('scripts/libs/moment.js'); ?>"></script>
 		<script>moment().format();</script>
-		<?php include $config->paths->content.'common/phpjs/js-config.js.php'; ?>
 	</head>
     <body class="fuelux">
 		<?php include ($config->paths->content.'nav/nav-yt.php'); ?>
         <div class="container"><?php include $config->paths->content.'nav/yt-navigation.php';?></div>
-
         <br>

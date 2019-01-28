@@ -62,7 +62,7 @@
 				$include = $config->paths->content."vend-information/screen-formatters/vi-purchase-orders-formatter.php";
 				break;
 		}
-		$config->scripts->append(hashtemplatefile('scripts/table-formatter.js'));
+		$config->scripts->append(hash_templatefile('scripts/table-formatter.js'));
 	} else {
 		$formatters = array(
 			'II Sales Order' => 'ii-sales-order-formatter',

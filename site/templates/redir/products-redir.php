@@ -1,18 +1,17 @@
 <?php
-	/**
-	* PRODUCT REDIRECT
-	* @param string $action
-	*
-	*
-	*/
+
 	$custID = $shipID = '';
-    $action = ($input->post->action ? $input->post->text('action') : $input->get->text('action'));
-	$itemID = ($input->post->itemID ? $input->post->text('itemID') : $input->get->text('itemID'));
-	$filename = session_id();
+	// Figure out page request method, then grab needed inputs
+	$requestmethod = $input->requestMethod('POST') ? 'post' : 'get';
+	$action = $input->$requestmethod->text('action');
+
+	// Set up filename and sessionID in case this was made through cURL
+	$filename = ($input->$requestmethod->sessionID) ? $input->$requestmethod->text('sessionID') : session_id();
+	$sessionID = ($input->$requestmethod->sessionID) ? $input->$requestmethod->text('sessionID') : session_id();
 
 	/**
 	* PRODUCT REDIRECT
-	*
+	* @param string $action
 	*
 	*
 	*
@@ -165,9 +164,8 @@
 
     switch ($action) {
         case 'item-search':
-            $q = ($input->post->q ? $input->post->text('q') : $input->get->text('q'));
-			$custID = ($input->post->custID ? $input->post->text('custID') : $input->get->text('custID'));
-			if (empty($custID)) { $custID == $config->defaultweb; }
+            $q = $input->$requestmethod->text('q');
+			$custID = !empty($input->$requestmethod->custID) ? $input->$requestmethod->text('custID') : $config->defaultweb;
 			$data = array('DBNAME' => $config->dplusdbname, 'ITNOSRCH' => strtoupper($q), 'CUSTID' => $custID);
             break;
 		case 'ii-select':
@@ -259,7 +257,7 @@
 		case 'ii-sales-history':
             $date = '';
 			$data = array('DBNAME' => $config->dplusdbname, 'IISALESHIST' => false, 'ITEMID' => $itemID);
-			$custID = ($input->post->custID ? $input->post->text('custID') : $input->get->text('custID'));
+			$custID = ($input->post->custID ? strtoupper($input->post->text('custID')) : strtoupper($input->get->text('custID')));
 			$shipID = ($input->post->shipID ? $input->post->text('shipID') : $input->get->text('shipID'));
 			$date = ($input->post->date ? $input->post->text('date') : $input->get->text('date'));
             if (!empty($custID)) {$data['CUSTID'] = $custID; } if (!empty($shipID)) {$data['SHIPID'] = $shipID; }
@@ -271,7 +269,7 @@
         case 'ii-substitutes':
 			$data = array('DBNAME' => $config->dplusdbname, 'IISUB' => false, 'ITEMID' => $itemID);
             break;
-		case 'ii-documents': 
+		case 'ii-documents':
 			$desc = XRefItem::get_itemdescription($itemID);
 			$session->sql = XRefItem::get_itemdescription($itemID);
 			$data = array('DBNAME' => $config->dplusdbname, 'DOCVIEW' => false, 'FLD1CD' => 'IT', 'FLD1DATA' => $itemID, 'FLD1DESC' => $desc);

@@ -5,9 +5,6 @@
 		</div>
 	</div>
 	<div class="container page">
-		<?php if ($user->logged_in) : ?>
-			<h2>Welcome, <?php echo $user->username; ?>!</h2>
-		<?php endif; ?>
 		<div class="row">
 			<div class="col-sm-3 col-md-3 col-lg-3 account">
 				<div class="profile bg-info">

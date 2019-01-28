@@ -1,13 +1,12 @@
 <?php $carthead = get_carthead(session_id()); ?>
 <?php
-	if ($modules->isInstalled('QtyPerCase')) {
-		include $config->paths->siteModules.'QtyPerCase/content/cart/cart-details.php';
+	if ($modules->isInstalled('CaseQtyBottle')) {
+		include $config->paths->siteModules.'CaseQtyBottle/content/cart/cart-details.php';
 	} else {
-		include $config->paths->content."/cart/cart-details.php";
+		include $config->paths->content."cart/cart-details.php";
 	}
 ?>
 <br>
-
 <?php if (has_dpluspermission($user->loginid, 'eso') && count_cartdetails(session_id()) > 0) : ?>
 	<a href="<?php echo $config->pages->cart."redir/?action=create-sales-order"; ?>" class="btn btn-success create-order" data-type="order">
 		<span class="fa-stack fa-md">

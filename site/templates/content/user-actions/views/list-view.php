@@ -13,7 +13,7 @@
 				<div class="col-sm-2 form-group">
 					<?php if ($appconfig->child('name=actions')->allow_changeuserview) : ?>
 						<h4 id="actions-assignedto">Assigned To</h4>
-						<select name="assignedto" class="selectpicker show-tick form-control input-sm" aria-labelledby="#actions-assignedto" data-style="btn-default btn-sm" multiple>
+						<select name="assignedto[]" class="selectpicker show-tick form-control input-sm" aria-labelledby="#actions-assignedto" data-style="btn-default btn-sm" multiple>
 							<?php foreach ($salespersoncodes as $salespersoncode) : ?>
 								<?php $selected = ($actionpanel->has_filtervalue('assignedto', $salespersonjson['data'][$salespersoncode]['splogin'])) ? 'selected' : ''; ?>
 								<?php if (!empty($salespersonjson['data'][$salespersoncode]['splogin'])) : ?>

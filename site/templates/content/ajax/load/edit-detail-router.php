@@ -17,10 +17,10 @@
             break;
         case 'order':
             $ordn = $input->get->text('ordn');
-            $order = SalesOrder::load($ordn);
+            $order = SalesOrderHistory::is_saleshistory($ordn) ? SalesOrderHistory::load($ordn) : SalesOrder::load($ordn);
             $custID = $order->custid;
             $linedetail = SalesOrderDetail::load(session_id(), $ordn, $linenbr);
-            
+
             if ($order->can_edit()) {
                 $formaction = $config->pages->orders."redir/";
                 $page->title = 'Edit Pricing for '. $linedetail->itemid;

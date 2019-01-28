@@ -17,7 +17,7 @@
 						<td><?= Dplus\Base\DplusDateTime::format_date($salesorder['bookdate']); ?></td>
 						<td class="text-right"><?= $salesorder['salesordernbr']; ?></td>
 						<?php if ($customer) : ?>
-							<td><a href="<?= $customer->generate_customerurl(); ?>"><?= $customer->get_customername(); ?></a> <span class="glyphicon glyphicon-share"></span></td>
+							<td><a href="<?= $customer->generate_customerURL(); ?>"><?= $customer->get_customername(); ?></a> <span class="glyphicon glyphicon-share"></span></td>
 							<td><?= $customer->shiptoid; ?></td>
 						<?php else : ?>
 							<td><?= $salesorder['custid']; ?></td>

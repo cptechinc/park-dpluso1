@@ -10,4 +10,4 @@
     </div>
 </form>
 
-<button type="button" class="btn btn-default remove-sales-order-locks">Remove Lock on Sales Order</button>
+<button type="button" class="btn btn-default remove-sales-order-locks" data-page="<?= $page->fullURL->getUrl(); ?>">Remove Lock on Sales Order</button>

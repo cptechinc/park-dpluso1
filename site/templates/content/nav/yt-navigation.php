@@ -13,6 +13,9 @@
 					case 'warehouse':
 						include $config->paths->content."nav/nav-by-role/warehouse.php";
 						break;
+					case 'warehouse-manager':
+						include $config->paths->content."nav/nav-by-role/warehouse.php";
+						break;
 					default: 
 						include $config->paths->content."nav/nav-by-role/default.php";
 						break;

@@ -10,7 +10,7 @@
 
             if (Customer::can_useraccess($custID, $shipID, $user->loginid)) {
 				$customer = Customer::load($custID, $shipID);
-				
+
 				if ($customer) {
 	                $page->title = 'CI: ' . $customer->generate_title();
 
@@ -25,10 +25,10 @@
 
 	                    $tableformatter->process_json();
 	                    $toolbar = $config->paths->content."cust-information/toolbar.php";
-	                    $config->scripts->append(hashtemplatefile('scripts/libs/raphael.js'));
-	                    $config->scripts->append(hashtemplatefile('scripts/libs/morris.js'));
-	            		$config->scripts->append(hashtemplatefile('scripts/ci/cust-functions.js'));
-	            		$config->scripts->append(hashtemplatefile('scripts/ci/cust-info.js'));
+	                    $config->scripts->append(hash_templatefile('scripts/libs/raphael.js'));
+	                    $config->scripts->append(hash_templatefile('scripts/libs/morris.js'));
+	            		$config->scripts->append(hash_templatefile('scripts/ci/cust-functions.js'));
+	            		$config->scripts->append(hash_templatefile('scripts/ci/cust-info.js'));
 	                    $itemlookup->set_customer($customer->custid, $customer->shiptoid);
 
 	                    if ($tableformatter->json['error']) {

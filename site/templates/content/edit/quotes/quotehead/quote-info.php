@@ -74,7 +74,7 @@
         <td>
             <select name="shipvia" class="form-control input-sm">
 				<option value="N/A">Choose Ship Method</option>
-                <?php $shipvias = getshipvias(session_id()); ?>
+                <?php $shipvias = get_shipvias(session_id()); ?>
                 <?php foreach($shipvias as $shipvia) : ?>
 					<?php $selected = ($quote->shipviacd == $shipvia['code']) ? 'selected' : ''; ?>
                     <option value="<?= $shipvia['code']; ?>" <?= $selected; ?>><?= $shipvia['via']; ?> </option>

@@ -13,7 +13,7 @@
         </div>
         <div class="col-sm-6">
         	<?php include $config->paths->content.'edit/orders/orderhead/order-info.php'; ?>
-			<?php if ($editorderdisplay->canedit) : ?>
+			<?php if (!$user->loginid == SalesOrder::get_orderlockuser($ordn)) : ?>
 				<div class="text-right form-group">
 					<button type="button" class="btn btn-success text-center" onclick="$('#salesdetail-link').click()">
 						<span class="glyphicon glyphicon-triangle-right"></span> Details Page
@@ -24,15 +24,19 @@
     </div>
     <div class="row">
 		<div class="col-sm-6">
-			<?php if ($editorderdisplay->canedit) : ?>
+			<?php if ($user->loginid == SalesOrder::get_orderlockuser($ordn)) : ?>
         		<button type="submit" class="btn btn-success btn-block text-center"><span class="glyphicon glyphicon-floppy-disk"></span> Save Changes</button>
 			<?php endif; ?>
 		</div>
     </div>
 	<hr>
-	<?php if (!$editorderdisplay->canedit) : ?>
-		<?= $editorderdisplay->generate_confirmationlink($order); ?>
+	<?php if ($user->loginid != SalesOrder::get_orderlockuser($order->ordernumber)) : ?>
+		<a href="<?= $editorderdisplay->generate_unlockURL($order); ?>" class="btn btn-block btn-success">
+			<span class="fa fa-arrow-right" aria-hidden="true"></span> Finished With Order
+		</a>
 	<?php else : ?>
-		<?= $editorderdisplay->generate_saveunlocklink($order); ?>
+		<a href="<?= $editorderdisplay->generate_unlockURL($order); ?>" class="btn btn-block btn-emerald save-unlock-order" data-form="#orderhead-form">
+			<span class="fa fa-unlock" aria-hidden="true"></span> Save and Exit
+		</a>
 	<?php endif; ?>
 </form>

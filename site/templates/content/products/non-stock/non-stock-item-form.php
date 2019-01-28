@@ -1,3 +1,4 @@
+<?php $custID = $input->get->text('custID'); ?>
 <?php $vendors = get_vendors(false); ?>
 <?php if ($appconfig->show_vendorinfononstock) : ?>
 	<h3>Choose Vendor</h3>
@@ -32,10 +33,13 @@
 		<form action="<?= $formaction; ?>" method="post">
 			<input type="hidden" name="action" value="add-nonstock-item">
 			<input type="hidden" name="custID" value="<?= $custID; ?>">
-			<?php if ($addtype == 'order') : ?>
+			<?php if ($addtype == 'sales-order') : ?>
 				<input type="hidden" name="ordn" value="<?= $ordn; ?>">
 			<?php elseif ($addtype == 'quote') : ?>
 				<input type="hidden" name="qnbr" value="<?= $qnbr; ?>">
+			<?php endif; ?>
+			<?php if ($input->get->page) : ?>
+				<input type="hidden" name="page" value="<?= $input->get->text('page'); ?>">
 			<?php endif; ?>
 			<table class="table table-condensed table-bordered table-striped">
 				<tr class="<?= $appconfig->show_vendorinfononstock ? '' : 'hidden'; ?>">

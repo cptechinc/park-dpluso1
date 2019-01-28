@@ -1,25 +1,15 @@
 <?php
+	// Figure out page request method, then grab needed inputs
+	$requestmethod = $input->requestMethod('POST') ? 'post' : 'get';
+	$action = $input->$requestmethod->text('action');
+
+	// Set up filename and sessionID in case this was made through cURL
+	$filename = ($input->$requestmethod->sessionID) ? $input->$requestmethod->text('sessionID') : session_id();
+	$sessionID = ($input->$requestmethod->sessionID) ? $input->$requestmethod->text('sessionID') : session_id();
+
 	/**
 	* ACCOUNT REDIRECT
 	* @param string $action
-	*
-	*/
-	$action = ($input->post->action ? $input->post->text('action') : $input->get->text('action'));
-
-	if ($input->post->sessionID) {
-		$filename = $input->post->text('sessionID');
-		$sessionID = $input->post->text('sessionID');
-	} elseif ($input->get->sessionID) {
-		$filename = $input->get->text('sessionID');
-		$sessionID = $input->get->text('sessionID');
-	} else {
-		$filename = session_id();
-		$sessionID = session_id();
-	}
-
-	/**
-	* ACCOUNT REDIRECT
-	*
 	*
 	*
 	*
@@ -41,18 +31,18 @@
 	switch ($action) {
 		case 'login':
 			if ($input->post->username) {
-				$username = $input->post->text('username');
-				$password = $input->post->text('password');
-				$data = array('DBNAME' => $config->dplusdbname, 'LOGPERM' => false, 'LOGINID' => $username, "PSWD" => $password);
+				$username = $input->$requestmethod->text('username');
+				$password = $input->$requestmethod->text('password');
+				$data = array("DBNAME=$config->dplusdbname", 'LOGPERM', "LOGINID=$username", "PSWD=$password");
 				$session->loggingin = true;
 				$session->loc = $config->pages->index.'redir/';
 			}
 			break;
 		case 'permissions':
-			$data = array('DBNAME' => $config->dplusdbname, 'FUNCPERM' => false);
+			$data = array("DBNAME=$config->dplusdbname", 'FUNCPERM');
 			break;
 		case 'logout':
-			$data = array('DBNAME' => $config->dplusdbname, 'LOGOUT' => false);
+			$data = array("DBNAME=$config->dplusdbname", 'LOGOUT');
 			$session->loc = $config->pages->login;
 			$session->remove('shipID');
 			$session->remove('custID');
@@ -64,24 +54,25 @@
 			}
 			break;
 		case 'store-document':
-			$folder = $input->get->text('filetype');
-			$file = $input->get->text('file');
-			$field1 = $input->get->text('field1');
-			$field2 = $input->get->text('field2');
-			$field3 = $input->get->text('field3');
+			$folder = $input->$requestmethod->text('filetype');
+			$file = $input->$requestmethod->text('file');
+			$field1 = $input->$requestmethod->text('field1');
+			$field2 = $input->$requestmethod->text('field2');
+			$field3 = $input->$requestmethod->text('field3');
 			$data = array(
-				'DBNAME' => $config->dplusdbname,
-				'DOCFILEFLDS' => $folder,
-				'DOCFILENAME' => $config->documentstoragedirectory.$file,
-				'DOCFLD1' => $field1,
-				'DOCFLD2' => $field2,
-				'DOCFLD3' => $field3
+				"DBNAME=$config->dplusdbname",
+				"DOCFILEFLDS=$folder",
+				"DOCFILENAME=$config->documentstoragedirectory$file",
+				"DOCFLD1=$field1",
+				"DOCFLD2=$field2",
+				"DOCFLD3=$field3"
 			);
 			break;
 	}
 
-	writedplusfile($data, $filename);
-	curl_redir("127.0.0.1/cgi-bin/".$config->cgis['default']."?fname=$filename");
+	write_dplusfile($data, $filename);
+	$page->curl->get("127.0.0.1/cgi-bin/".$config->cgis['default']."?fname=$filename");
+	
 	if (!empty($session->get('loc')) && !$config->ajax) {
 		header("Location: $session->loc");
 	}

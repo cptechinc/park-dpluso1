@@ -7,7 +7,7 @@
 			<div class="col-md-4 form-group sm-padding">
 				<span class="detail-line-field-name">Item/Description:</span>
 				<span class="detail-line-field numeric">
-					<input class="form-control input-xs underlined" type="text" name="itemID" placeholder="Item ID">
+					<input class="form-control input-xs underlined" type="text" name="itemID" placeholder="Item ID" autofocus>
 				</span>
 			</div>
 			<div class="col-md-1 form-group sm-padding"> </div>
@@ -28,7 +28,7 @@
 				</button>
 			</div>
 			<div class="col-md-2 form-group text-right sm-padding">
-				<a href="<?= $config->pages->ajax.'load/products/non-stock/form/quote/'; ?>" class="btn btn-sm btn-primary load-into-modal nonstock-btn" data-modal="#ajax-modal" data-modalsize="xl">
+				<a href="<?= $config->pages->ajax.'load/products/non-stock/form/quote/?qnbr='.$quote->quotnbr; ?>" class="btn btn-sm btn-primary load-into-modal nonstock-btn" data-modal="#ajax-modal" data-modalsize="xl">
 					<i class="fa fa-cube" aria-hidden="true"></i> Add Non-stock
 				</a>
 			</div>

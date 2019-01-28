@@ -38,22 +38,22 @@
 
                 switch ($addtype) {
                     case 'cart':
-                        if ($modules->isInstalled('QtyPerCase')) {
-                            include $config->paths->siteModules.'QtyPerCase/content/item-search/add-detail/cart.php';
+                        if ($modules->isInstalled('CaseQtyBottle')) {
+                            include $config->paths->siteModules.'CaseQtyBottle/content/item-search/add-detail/cart.php';
                         } else {
                             include $config->paths->content."products/ajax/load/product-results/product-cart-results.php";
                         }
                         break;
                     case 'order':
-                        if ($modules->isInstalled('QtyPerCase')) {
-                            include $config->paths->siteModules.'QtyPerCase/content/item-search/add-detail/sales-order.php';
+                        if ($modules->isInstalled('CaseQtyBottle')) {
+                            include $config->paths->siteModules.'CaseQtyBottle/content/item-search/add-detail/sales-order.php';
                         } else {
                             include $config->paths->content."products/ajax/load/product-results/product-order-results.php";
                         }
                         break;
                     case 'quote':
-                        if ($modules->isInstalled('QtyPerCase')) {
-                            include $config->paths->siteModules.'QtyPerCase/content/item-search/add-detail/quote.php';
+                        if ($modules->isInstalled('CaseQtyBottle')) {
+                            include $config->paths->siteModules.'CaseQtyBottle/content/item-search/add-detail/quote.php';
                         } else {
                             include $config->paths->content."products/ajax/load/product-results/product-quote-results.php";
                         }

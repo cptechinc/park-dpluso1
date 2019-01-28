@@ -219,7 +219,7 @@ $(document).ready(function() {
 			var loadinto = form.data('loadinto');
 			var querystring = formurl.query() + "&"+ form.serialize();
 			formurl.query(querystring).query(cleanparams).normalizeQuery();
-			
+
 			href = formurl.toString();
 
 			$(loadinto).loadin(href, function() {
@@ -671,12 +671,29 @@ $(document).ready(function() {
 		/*==============================================================
 			CI / II / VI FUNCTIONS
 		=============================================================*/
+		//setup before functions
+		var typingTimer;                //timer identifier
+		var doneTypingInterval = 300;  //time in ms, 5 second for example
+		
 		$("body").on("keyup", ".ii-item-search", function() {
-			var thisform = $(this).closest('form');
-			var href = thisform.attr('action')+"?q="+urlencode($(this).val());
+			clearTimeout(typingTimer);
+			typingTimer = setTimeout(function() {
+				ii_itemsearch()
+			}, doneTypingInterval);
+		});
+		
+		//on keydown, clear the countdown 
+		$("body").on("keydown", ".ii-item-search", function () {
+			clearTimeout(typingTimer);
+		});
+		
+		function ii_itemsearch() {
+			var thisform = $(".ii-item-search").closest('form');
+			var href = thisform.attr('action')+"?q="+urlencode($(".ii-item-search").val());
 			var loadinto = '#item-results';
 			$(loadinto).loadin(href, function() { });
-		});
+		}
+		
 
 		$("body").on("submit", "#ci-search-item", function(e) {
 			e.preventDefault();

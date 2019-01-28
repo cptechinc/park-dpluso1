@@ -2,7 +2,10 @@
         <div class="container hidden-print">
             <div class="row">
                 <div class="col-xs-12">
-                    <a id="back-to-top" href="#" class="btn btn-success back-to-top" role="button"><span class="glyphicon glyphicon-chevron-up"></span></a>
+                    <a id="back-to-top" href="#" class="btn btn-success back-to-top" role="button">
+						<i class="fa fa-chevron-up" aria-hidden="true"></i>
+						<span class="sr-only">Go Back to the Top</span>
+					</a>
                 </div>
             </div>
         </div>
@@ -17,6 +20,7 @@
 		<?php include $config->paths->content."common/modals/lightbox-modal.php"; ?>
 		<?php //include $config->paths->content."common/modals/add-item-modal.php"; ?>
 		<?php include $config->paths->content."common/modals/item-lookup-modal.php"; ?>
+		<?php include $config->paths->content.'common/phpjs/js-config.js.php'; ?>
         <?php foreach($config->scripts->unique() as $script) : ?>
         	<script src="<?= $script; ?>"></script>
         <?php endforeach; ?>

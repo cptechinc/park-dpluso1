@@ -75,3 +75,9 @@ function JsContento() {
         return attributes.trim();
     }
 }
+
+function SwalError(error, title, msg) {
+    this.error = error;
+    this.title = title;
+    this.msg = msg;
+}

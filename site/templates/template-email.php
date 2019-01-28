@@ -1,10 +1,17 @@
 <?php
+    use Purl\Url;
+    use Dplus\FileServices\DplusEmailer;
+    use Dplus\FileServices\EmailContact;
+    use Dplus\FileServices\PDFMaker;
+    use Dplus\Dpluso\OrderDisplays\SalesOrderDisplay;
+    use Dplus\Dpluso\OrderDisplays\QuoteDisplay;
+    
     $sessionID = $input->get->referenceID ? $input->get->text('referenceID') : session_id();
-    $emailer = new Dplus\FileServices\DplusEmailer();
+    $emailer = new DplusEmailer();
     $emailer->set_fromlogmuser($user->loginid);
     
     if ($input->requestMethod() == "POST") {
-        $emailto = Dplus\FileServices\EmailContact::create_fromarray(array('email' => $input->post->text('email'), 'name' => $input->post->text('emailname')));
+        $emailto = EmailContact::create_fromarray(array('email' => $input->post->text('email'), 'name' => $input->post->text('emailname')));
         $emailer->set_subject($input->post->text('subject'));
         $emailer->add_emailto($emailto);
         $emailer->set_body($input->post->text('message'));
@@ -14,20 +21,20 @@
     switch ($page->name) { //$page->name is what we are printing
         case 'sales-order':
             $ordn = $input->get->text('ordn');
-            $orderdisplay = new Dplus\Dpluso\OrderDisplays\SalesOrderDisplay($sessionID, $page->fullURL, '#ajax-modal', $ordn);
+            $orderdisplay = new SalesOrderDisplay($sessionID, $page->fullURL, '#ajax-modal', $ordn);
             $order = $orderdisplay->get_order(); 
-            $printurl = new \Purl\Url($orderdisplay->generate_viewprintpageurl($order));
+            $printurl = new Url($orderdisplay->generate_printpageURL($order));
             break;
         case 'quote':
             $qnbr = $input->get->text('qnbr');
-            $quotedisplay = new Dplus\Dpluso\OrderDisplays\QuoteDisplay($sessionID, $page->fullURL, '#ajax-modal', $qnbr);
+            $quotedisplay = new QuoteDisplay($sessionID, $page->fullURL, '#ajax-modal', $qnbr);
             $quote = $quotedisplay->get_quote();
-            $printurl = new \Purl\Url($quotedisplay->generate_viewprintpageurl($quote));
+            $printurl = new Url($quotedisplay->generate_printpageURL($quote));
             break;
     }
     
 	$printurl->query->set('referenceID', $sessionID);
-	$pdfmaker = new Dplus\FileServices\PDFMaker($sessionID, $page->name, $printurl->getUrl());
+	$pdfmaker = new PDFMaker($sessionID, $page->name, $printurl->getUrl());
 	$file = $pdfmaker->process();
     
     if ($file) {

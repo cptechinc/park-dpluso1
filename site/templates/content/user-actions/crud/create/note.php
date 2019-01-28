@@ -31,14 +31,10 @@
 		}
 
 		$maxrec = UserAction::get_maxid($user->loginid);
+		$session->sql = $note->save(true);
+		$success = $note->save();
 
-		$results = $note->save();
-
-		$session->insertedid = $results['insertedid'];
-		$session->sql = $results['sql'];
-		$note->set('id', $results['insertedid']);
-
-		if ($results['insertedid'] > $maxrec) {
+		if ($note->id > $maxrec) {
 			$error = false;
 			$message = "<strong>Success!</strong><br> Your note for {replace} has been created";
 			$icon = "glyphicon glyphicon-floppy-saved";

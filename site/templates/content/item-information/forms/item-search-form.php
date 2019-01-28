@@ -1,4 +1,4 @@
-<form action="<?php echo $config->pages->ajax."load/ii/search-results/"; ?>" method="get" id="ii-search-item">
+<form action="<?= $config->pages->ajax."load/ii/search-results/"; ?>" method="get" id="ii-search-item">
 	<input type="text" class="form-control ii-item-search" name="q" placeholder="Type Item ID" autocomplete="off" value="<?= $q; ?>">
 	<input type="hidden" name="custID" class="custID" value="<?= $custID; ?>" >
 </form>

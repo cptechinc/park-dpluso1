@@ -7,19 +7,25 @@
         'tracking' => array('href' => 'tracking', "id" => 'tracking-tab-link', 'text' => 'View Tracking', 'tabcontent' => $config->paths->content.'edit/orders/tracking-page.php'),
         'actions' => array('href' => 'actions', "id" => 'actions-tab-link', 'text' => 'View Actions', 'tabcontent' => $config->paths->content.'edit/orders/actions-page.php')
     );
-
-    if (!$editorderdisplay->canedit) {
-        echo $editorderdisplay->generate_readonlyalert();
-    }
-
-    if (!empty($order->errormsg)) {
-        echo $editorderdisplay->generate_erroralert($order);
-    }
-
-    if ($modules->isInstalled('QtyPerCase')) {
-        $tabs['details']['tabcontent'] = $config->paths->siteModules.'QtyPerCase/content/edit/sales-order/details/details-page.php';
+    
+    if ($modules->isInstalled('CaseQtyBottle')) {
+        $tabs['details']['tabcontent'] = $config->paths->siteModules.'CaseQtyBottle/content/edit/sales-order/details/details-page.php';
     }
 ?>
+
+<?php if (!$order->can_edit()) : ?>
+    <div class="alert alert-danger" role="alert">
+        <b>Attention!</b> 
+        This order will open in read-only mode, you will not be able to save changes.
+    </div>
+<?php endif; ?>
+
+<?php if (!empty($order->errormsg)) : ?>
+    <div class="alert alert-danger" role="alert">
+        <b>Error!</b> 
+        <?= $order->errormsg; ?>
+    </div>
+<?php endif; ?>
 
 <ul id="order-tab" class="nav nav-tabs nav_tabs">
     <?php foreach ($tabs as $tab) : ?>
