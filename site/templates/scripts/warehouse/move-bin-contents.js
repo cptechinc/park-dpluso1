@@ -4,6 +4,30 @@ $(function() {
 	var input_frombin = form_movecontents.find('input[name=from-bin]');
 	var input_tobin = form_movecontents.find('input[name=to-bin]');
 	
+	form_movecontents.validate({
+		submitHandler : function(form) {
+			var valid_frombin = validate_frombin();
+			var valid_tobin = validate_tobin();
+			var valid_form = new SwalError(false, '', '', false);
+			
+			if (valid_frombin.error) {
+				valid_form = valid_frombin;
+			} else if (valid_tobin.error) {
+				valid_form = valid_tobin;
+			}
+			
+			if (valid_form.error) {
+				swal({
+					type: 'error',
+					title: valid_form.title,
+					text: valid_form.msg,
+					html: valid_form.html
+				});
+			} else {
+				form.submit();
+			}
+		}
+	});
 	/**
 	 * IF WAREHOUSE HAS A BIN LIST THEN SHOW A DROPDOWN LIST OF THE BIN LIST 
 	 * IF IT'S A BIN RANGE THEN WE SHOW THEM WHAT THE BIN RANGE IS
@@ -42,11 +66,12 @@ $(function() {
 				} 
 			}).catch(swal.noop);
 		} else {
-			var msg = 'Warehouse bin range is between ' + whsesession.whse.bins.bins.from + ' and ' + whsesession.whse.bins.bins.through;
+			var table = create_binrangetable();
+			
 			swal({
 				type: 'info',
-				title: 'Bin Range',
-				text: msg
+				title: 'Bin Ranges',
+				html: table
 			}).catch(swal.noop);
 		}
 	});
@@ -56,6 +81,7 @@ $(function() {
 		var error = false;
 		var title = '';
 		var msg = '';
+		var html = false;
 		var lowercase_frombin = input_frombin.val();
 		input_frombin.val(lowercase_frombin.toUpperCase());
 		
@@ -67,18 +93,31 @@ $(function() {
 			error = true;
 			title = 'Invalid Bin ID';
 			msg = 'Please Choose a valid From bin';
-		} else if (whsesession.whse.bins.arranged == 'list' && input_frombin.val() < whsesession.whse.bins.bins.from || input_frombin.val() > whsesession.whse.bins.bins.through) {
+		} else if (whsesession.whse.bins.arranged == 'range') {
 			error = true;
 			title = 'Invalid Bin ID';
-			msg = 'From Bin must be between ' + whsesession.whse.bins.bins.from + ' and ' + whsesession.whse.bins.bins.through;
+			
+			whsesession.whse.bins.bins.forEach(function(bin) {
+				if (input_frombin.val() >= bin.from && input_frombin.val() <= bin.through) {
+					error = false;
+				}
+			});
+			
+			if (error) {
+				title = 'Invalid From Bin ID';
+				msg = 'Your From Bin ID must between these ranges';
+				html = "<h4>Valid Bin Ranges<h4>" + create_binrangetable();
+			}
+			
 		}
-		return new SwalError(error, title, msg);
+		return new SwalError(error, title, msg, html);
 	}
 
 	function validate_tobin() {
 		var error = false;
 		var title = '';
 		var msg = '';
+		var html = false;
 		var lowercase_tobin = input_tobin.val();
 		input_tobin.val(lowercase_tobin.toUpperCase());
 		
@@ -90,11 +129,34 @@ $(function() {
 			error = true;
 			title = 'Invalid Bin ID';
 			msg = 'Please Choose a valid To bin';
-		} else if (whsesession.whse.bins.arranged == 'list' && input_tobin.val() < whsesession.whse.bins.bins.from || input_tobin.val() > whsesession.whse.bins.bins.through) {
+		} else if (whsesession.whse.bins.arranged == 'range') {
 			error = true;
-			title = 'Invalid Bin ID';
-			msg = 'To Bin must be between ' + whsesession.whse.bins.bins.from + ' and ' + whsesession.whse.bins.bins.through;
+			
+			whsesession.whse.bins.bins.forEach(function(bin) {
+				if (input_tobin.val() >= bin.from && input_tobin.val() <= bin.through) {
+					error = false;
+				}
+			});
+			
+			if (error) {
+				title = 'Invalid To Bin ID';
+				msg = 'Your To Bin ID must between these ranges';
+				html = "<h4>Valid Bin Ranges<h4>" + create_binrangetable();
+			}
 		}
-		return new SwalError(error, title, msg);
+		return new SwalError(error, title, msg, html);
+	}
+	
+	function create_binrangetable() {
+		var bootstrap = new JsContento();
+		var table = bootstrap.open('table', 'class=table table-striped table-condensed');
+			whsesession.whse.bins.bins.forEach(function(bin) {
+				table += bootstrap.open('tr', '');
+					table += bootstrap.openandclose('td', '', bin.from);
+					table += bootstrap.openandclose('td', '', bin.through);
+				table += bootstrap.close('tr');
+			});
+		table += bootstrap.close('table');
+		return table;
 	}
 });

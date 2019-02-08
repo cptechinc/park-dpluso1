@@ -1,11 +1,13 @@
 <?php
+	// Figure out page request method, then grab needed inputs
 	$requestmethod = $input->requestMethod('POST') ? 'post' : 'get';
 	$action = $input->$requestmethod->text('action');
-	$sessionID = $input->get->sessionID ? $input->$requestmethod->text('sessionID') : session_id();
-	
-	$session->{'from-redirect'} = $page->url;
-	$session->remove('order-search');
-	$filename = $sessionID;
+
+	// Set up filename and sessionID in case this was made through cURL
+	$filename = ($input->$requestmethod->sessionID) ? $input->$requestmethod->text('sessionID') : session_id();
+	$sessionID = ($input->$requestmethod->sessionID) ? $input->$requestmethod->text('sessionID') : session_id();
+		
+	$session->fromredirect = $page->url;
 
 	/**
 	* PICKING ORDERS REDIRECT
@@ -114,7 +116,6 @@
 	*		ORDERNBR=$ordn
 	*		break;
 	* }
-	*
 	**/
 
 	switch ($action) {

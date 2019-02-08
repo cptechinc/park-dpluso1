@@ -50,7 +50,7 @@
 			include($page->body);
 		}
 	} else {
-		$config->scripts->append(hash_templatefile('scripts/libs/raphael.js'));
-		$config->scripts->append(hash_templatefile('scripts/libs/morris.js'));
+		$config->scripts->append(get_hashedtemplatefileURL('scripts/libs/raphael.js'));
+		$config->scripts->append(get_hashedtemplatefileURL('scripts/libs/morris.js'));
 		include $config->paths->content."common/include-blank-page.php";
 	}

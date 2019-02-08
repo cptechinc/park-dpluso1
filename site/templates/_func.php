@@ -190,14 +190,42 @@ function write_dplusfile($data, $filename) {
 		return $json;
 	}
 
-	function hash_templatefile($filename) {
-		$hash = hash_file(DplusWire::wire('config')->userAuthHashType, DplusWire::wire('config')->paths->templates.$filename);
-		return DplusWire::wire('config')->urls->templates.$filename.'?v='.$hash;
+	/**
+	 * Creates a hash for a template file
+	 * @param  string $pathtofile Path to file from templates/
+	 * @return string             Hash for file
+	 */
+	function hash_templatefile($pathtofile) {
+		return hash_file(DplusWire::wire('config')->userAuthHashType, DplusWire::wire('config')->paths->templates.$pathtofile);
 	}
 
-	function hash_modulefile($filename) {
-		$hash = hash_file(DplusWire::wire('config')->userAuthHashType, DplusWire::wire('config')->paths->siteModules.$filename);
-		return DplusWire::wire('config')->urls->siteModules.$filename.'?v='.$hash;
+	/**
+	 * Gets a URL for a template file with its hash
+	 * @param  string $pathtofile Path to file from templates/
+	 * @return string             URL for templatefile with hash
+	 */
+	function get_hashedtemplatefileURL($pathtofile) {
+		$hash = hash_templatefile($pathtofile);
+		return DplusWire::wire('config')->urls->templates."$pathtofile?v=$hash";
+	}
+	
+	/**
+	 * Creates a hash for a Module file
+	 * @param  string $pathtofile Path to file from modules/
+	 * @return string             Hash for file
+	 */
+	function hash_modulefile($pathtofile) {
+		return hash_file(DplusWire::wire('config')->userAuthHashType, DplusWire::wire('config')->paths->siteModules.$pathtofile);
+	}
+	
+	/**
+	 * Gets a URL for a module file with its hash
+	 * @param  string $pathtofile Path to file from modules/
+	 * @return string             URL for templatefile with hash
+	 */
+	function get_hashedmodulefileURL($pathtofile) {
+		$hash = hash_modulefile($pathtofile);
+		return DplusWire::wire('config')->urls->siteModules."$pathtofile?v=$hash";
 	}
 
 	function curl_redir($url) {

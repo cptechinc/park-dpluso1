@@ -20,12 +20,14 @@
 	*
 	* switch ($action) {
 	*	case 'get-order-notes':
+	*		- Loads the Sales Order Notes for a Line
 	*		DBNAME=$config->dplusdbname
 	*		LQNOTE=SORD
 	*		KEY1=$ordn
 	*		KEY2=$linenbr
 	*		break;
 	*	case 'get-quote-notes':
+	*		- Loads the Quote Notes for a Line
 	*		DBNAME=$config->dplusdbname
 	*		LQNOTE=QUOT
 	*		KEY1=$qnbr
@@ -36,6 +38,7 @@
 	*		LOAD CART NOTES
 	*		break;
 	*	case 'edit-note':
+	*		- Edits the QNote for a Line
 	*		DBNAME=>$config->dplusdbname
 	*		RQNOTE=$rectype
 	*		KEY1=$key1,
@@ -47,6 +50,7 @@
 	*		FORM5=$form5
 	*		break;
 	*	case 'add-note':
+	*		- Adds QNote for a Line
 	*		DBNAME=>$config->dplusdbname
 	*		RQNOTE=$rectype
 	*		KEY1=$key1,
@@ -64,20 +68,20 @@
 		case 'get-order-notes':
 			$ordn = $input->get->text('ordn');
 			$linenbr = $input->get->text('linenbr');
-			$data = array('DBNAME' => $config->dplusdbname, 'LQNOTE' => 'SORD', 'KEY1' => $ordn, 'KEY2' => $linenbr);
+			$data = array("DBNAME=$config->dplusdbname", "LQNOTE=SORD", "KEY1=$ordn", "KEY2=$linenbr");
 			$session->loc = $config->pages->ajax."load/notes/dplus/order/?ordn=".$ordn."&linenbr=".$linenbr;
 			if ($config->modal) {$session->loc .= "&modal=modal";}
 			break;
 		case 'get-quote-notes':
 			$qnbr = $input->get->text('qnbr');
 			$linenbr = $input->get->text('linenbr');
-			$data = array('DBNAME' => $config->dplusdbname, 'LQNOTE' => 'QUOT', 'KEY1' => $qnbr, 'KEY2' => $linenbr);
+			$data = array("DBNAME=$config->dplusdbname", "LQNOTE=QUOT", "KEY1=$qnbr", "KEY2=$linenbr");
 			$session->loc = $config->pages->ajax."load/notes/dplus/quote/?qnbr=".$qnbr."&linenbr=".$linenbr;
 			if ($config->modal) {$session->loc .= "&modal=modal";}
 			break;
 		case 'get-cart-notes':
 			$linenbr = $input->get->text('linenbr');
-			$data = array('DBNAME' => $config->dplusdbname, 'LOAD CART NOTES' => false);
+			$data = array("DBNAME=$config->dplusdbname", 'LOAD CART NOTES');
 			$session->loc = $config->pages->ajax."load/notes/dplus/cart/?linenbr=".$linenbr;
 			if ($config->modal) {$session->loc .= "&modal=modal";}
 			break;
@@ -96,14 +100,14 @@
 			$session->sql = $note->update();
 
 			$data = array(
-				'DBNAME' => $config->dplusdbname,
-				'RQNOTE' => $note->rectype,
-				'KEY1' => $note->key1,
-				'KEY2' => $note->key2,
-				'FORM1' => $note->form1,
-				'FORM2' => $note->form2,
-				'FORM3' => $note->form3,
-				'FORM4' => $note->form4,
+				"DBNAME=$config->dplusdbname",
+				"RQNOTE=$note->rectype",
+				"KEY1=$note->key1",
+				"KEY2=$note->key2",
+				"FORM1=$note->form1",
+				"FORM2=$note->form2",
+				"FORM3=$note->form3",
+				"FORM4=$note->form4",
 			);
 			if ($note->rectype != Qnote::get_qnotetype('sales-order')) {
 				$data['FORM5'] = $note->form5;
@@ -124,20 +128,20 @@
 			$session->sql = $note->create();
 
 			$data = array(
-				'DBNAME' => $config->dplusdbname,
-				'RQNOTE' => $note->rectype,
-				'KEY1' => $note->key1,
-				'KEY2' => $note->key2,
-				'FORM1' => $note->form1,
-				'FORM2' => $note->form2,
-				'FORM3' => $note->form3,
-				'FORM4' => $note->form4,
-				'FORM5' => $note->form5
+				"DBNAME=$config->dplusdbname",
+				"RQNOTE=$note->rectype",
+				"KEY1=$note->key1",
+				"KEY2=$note->key2",
+				"FORM1=$note->form1",
+				"FORM2=$note->form2",
+				"FORM3=$note->form3",
+				"FORM4=$note->form4",
+				"FORM5=$note->form5"
 			);
 			break;
 	}
 
-	writedplusfile($data, $filename);
+	write_dplusfile($data, $filename);
 	curl_redir("127.0.0.1/cgi-bin/".$config->cgis['default']."?fname=$filename");
 	if (!empty($session->get('loc')) && !$config->ajax) {
 		header("Location: $session->loc");

@@ -8,7 +8,7 @@
         $page->body = $config->paths->content."warehouse/picking/choose-sales-order-form.php";
     } else {
         $whsesession = WhseSession::load(session_id());
-        $config->scripts->append(hash_templatefile('scripts/warehouse/pick-order.js'));
+        $config->scripts->append(get_hashedtemplatefileURL('scripts/warehouse/pick-order.js'));
 
         if ($input->get->ordn) {
 

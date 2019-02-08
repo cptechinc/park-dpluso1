@@ -22,11 +22,11 @@
             }
         }
 
-        $config->scripts->append(hash_templatefile('scripts/libs/raphael.js'));
-        $config->scripts->append(hash_templatefile('scripts/libs/morris.js'));
-        $config->scripts->append(hash_templatefile('scripts/libs/datatables.js'));
-    	$config->scripts->append(hash_templatefile('scripts/ii/item-functions.js'));
-    	$config->scripts->append(hash_templatefile('scripts/ii/item-info.js'));
+        $config->scripts->append(get_hashedtemplatefileURL('scripts/libs/raphael.js'));
+        $config->scripts->append(get_hashedtemplatefileURL('scripts/libs/morris.js'));
+        $config->scripts->append(get_hashedtemplatefileURL('scripts/libs/datatables.js'));
+    	$config->scripts->append(get_hashedtemplatefileURL('scripts/ii/item-functions.js'));
+    	$config->scripts->append(get_hashedtemplatefileURL('scripts/ii/item-info.js'));
 
         include $config->paths->content."common/include-toolbar-page.php";
     } else {

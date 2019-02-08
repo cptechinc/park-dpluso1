@@ -18,5 +18,5 @@
 	
 	
 	$toolbar = false;
-	$config->scripts->append(hash_templatefile('scripts/warehouse/bin-inquiry.js'));
+	$config->scripts->append(get_hashedtemplatefileURL('scripts/warehouse/bin-inquiry.js'));
 	include $config->paths->content."common/include-toolbar-page.php";

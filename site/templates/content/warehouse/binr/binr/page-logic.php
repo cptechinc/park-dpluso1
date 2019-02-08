@@ -5,7 +5,7 @@
 	$whsesession = WhseSession::load(session_id());
 	$whsesession->init();
 	$binr = new Binr();
-	$config->scripts->append(hash_templatefile('scripts/warehouse/binr.js'));
+	$config->scripts->append(get_hashedtemplatefileURL('scripts/warehouse/binr.js'));
 
 	if ($input->get->scan) {
 		$page->fullURL->query->remove('scan');

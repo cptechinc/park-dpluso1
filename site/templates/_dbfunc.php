@@ -3464,6 +3464,14 @@
 		}
 	}
 
+	/**
+	 * Returns if an ordrhed detail record for Session ID exists
+	 * @param  string $sessionID Session ID
+	 * @param  string $ordn      Sales Order Number
+	 * @param  string $linenbr   Line Number
+	 * @param  bool   $debug     Run in debug? If so, return SQL Query
+	 * @return bool              Is there an ordrhed record for Session ID?
+	 */
 	function does_orderdetailexist($sessionID, $ordn, $linenbr, $debug = false) {
 		$q = (new QueryBuilder())->table('ordrdet');
 		$q->field('COUNT(*)');
@@ -3480,6 +3488,14 @@
 		}
 	}
 
+	/**
+	 * Retrieves Sales Order Detail Record
+	 * @param  string           $sessionID Session Identifier
+	 * @param  string           $ordn      Sales Order Number
+	 * @param  string           $linenbr   Line Number
+	 * @param  bool             $debug     Run in debug? If so return SQL Query
+	 * @return array
+	 */
 	function get_orderdetail($sessionID, $ordn, $linenbr, $debug = false) {
 		$q = (new QueryBuilder())->table('ordrdet');
 		$q->where('sessionid', $sessionID);
@@ -3583,6 +3599,17 @@
 		}
 	}
 
+	/**
+	 * Updates credit card information for Sales Order
+	 * @param  string $sessionID Session Identifier
+	 * @param  string $ordn      Sales Order Number
+	 * @param  string $paytype   Payment Type
+	 * @param  string $ccno      Credit Card Number
+	 * @param  string $expdate   Expiration Date
+	 * @param  string $ccv       CCV Number
+	 * @param  bool   $debug     Run in debug? If so, returns SQL Query
+	 * @return OrderCreditCard
+	 */
 	function update_orderhead_credit($sessionID, $ordn, $paytype, $ccno, $expdate, $ccv, $debug = false) {
 		$q = (new QueryBuilder())->table('ordrhed');
 		$q->mode('update');
@@ -3645,6 +3672,7 @@
 /* =============================================================
 	MISC ORDER FUNCTIONS
 ============================================================ */
+
 	function get_allorderdocs($sessionID, $ordn, $debug = false) {
 		$q = (new QueryBuilder())->table('orddocs');
 		$q->where('sessionid', $sessionID);
@@ -3693,6 +3721,12 @@
 /* =============================================================
 	ITEM FUNCTIONS
 ============================================================ */
+	/**
+	 * Returns an array of items that match the search query and with the customer ID if provided
+	 * @param  string $itemID  Item ID
+	 * @param  bool   $debug   Run in debug? If so, return SQL Query
+	 * @return                 Item
+	 */
 	function get_itemfrompricing($itemID, $debug  = false) {
 		$q = (new QueryBuilder())->table('pricing');
 		$q->where('itemid', $itemID);
@@ -5328,33 +5362,6 @@
 			return $sql->fetchColumn();
 		}
 	}
-	
-	/**
-	 * Returns the total Qty of this item ID at provided bin
-	 * @param  string $sessionID Session Identifier
-	 * @param  string $itemID    Item ID
-	 * @param  string $binID     Bin ID to grab Item
-	 * @param  bool   $debug     Run in debug? If so, return SQL Query
-	 * @return int               Number of results for this session
-	 */
-	function get_invsearch_total_qty_itemid($sessionID, $itemID, $binID = '', $debug = false) {
-		$q = (new QueryBuilder())->table('invsearch');
-		$q->field($q->expr('SUM(qty)'));
-		$q->where('sessionid', $sessionID);
-		$q->where('itemid', $itemID);
-
-		if (!empty($binID)) {
-			$q->where('bin', $binID);
-		}
-		$sql = DplusWire::wire('dplusdatabase')->prepare($q->render());
-
-		if ($debug) {
-			return $q->generate_sqlquery($q->params);
-		} else {
-			$sql->execute($q->params);
-			return $sql->fetchColumn();
-		}
-	}
 
 	/**
 	 * Returns the Number of results for this session and Lot Number / Serial Number
@@ -5415,33 +5422,6 @@
 		$q = (new QueryBuilder())->table('invsearch');
 		$q->where('sessionid', $sessionID);
 		$q->group('itemid, xorigin');
-		$sql = DplusWire::wire('dplusdatabase')->prepare($q->render());
-
-		if ($debug) {
-			return $q->generate_sqlquery($q->params);
-		} else {
-			$sql->execute($q->params);
-			$sql->setFetchMode(PDO::FETCH_CLASS, 'InventorySearchItem');
-			return $sql->fetchAll();
-		}
-	}
-	
-	/**
-	 * Returns an array of InventorySearchItem of invsearch results
-	 * @param  string $sessionID Session Identifier
-	 * @param  string $itemID    Item ID
-	 * @param  string $binID     Bin ID
-	 * @param  bool   $debug     Run in debug? If so, return SQL Query
-	 * @return array             [InventorySearchItem]
-	 */
-	function get_all_invsearchitems_lotserial($sessionID, $itemID, $binID, $debug = false) {
-		$q = (new QueryBuilder())->table('invsearch');
-		$q->where('sessionid', $sessionID);
-		$q->where('itemid', $itemID);
-		
-		if (!empty($binID)) {
-			$q->where('bin', $binID);
-		}
 		$sql = DplusWire::wire('dplusdatabase')->prepare($q->render());
 
 		if ($debug) {

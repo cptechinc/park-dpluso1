@@ -10,7 +10,7 @@
 			if ($contact->can_edit()) {
 				$page->title = "Editing " .$contact->contact . ", ".$contact->get_customername();
 				$page->body = $config->paths->content.'customer/contact/edit-contact.php';
-				$config->scripts->append(hash_templatefile('scripts/pages/contact-page.js'));
+				$config->scripts->append(get_hashedtemplatefileURL('scripts/pages/contact-page.js'));
 	            include $config->paths->content."common/include-page.php";
 			} else {
 				$page->title = "Error";

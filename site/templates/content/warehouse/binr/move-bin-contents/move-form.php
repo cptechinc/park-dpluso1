@@ -1,4 +1,9 @@
 <?php include "{$config->paths->content}warehouse/session.js.php"; ?>
+<div class="form-group">
+	<a href="<?= $page->parent->url; ?>" class="btn btn-primary not-round">
+		<i class="fa fa-arrow-left" aria-hidden="true"></i> Return to BINR Menu
+	</a>
+</div>
 <?php if ($session->bincm && $whsesession->had_succeeded()) : ?>
 	<?php $results = json_decode($session->bincm, true); ?>
 	<div>

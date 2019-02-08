@@ -4,7 +4,7 @@
 		<i class="fa fa-arrow-left" aria-hidden="true"></i> Return to Inventory Menu
 	</a>
 </div>
-<form action="<?= $page->parent->child('name=redir')->url; ?>" method="post" class="allow-enterkey-submit">
+<form action="<?= $page->parent->child('name=redir')->url; ?>" method="post" class="select-bin-form allow-enterkey-submit">
 	<input type="hidden" name="action" value="bin-inquiry">
 	<input type="hidden" name="page" value="<?= $page->fullURL->getUrl(); ?>">
     <div class="form-group">

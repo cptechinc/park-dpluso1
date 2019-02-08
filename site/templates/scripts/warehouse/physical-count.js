@@ -104,10 +104,17 @@ $(function() {
 			error = true;
 			title = 'Invalid Bin ID';
 			msg = 'Please Choose a valid bin ID';
-		} else if (whsesession.whse.bins.arranged == 'list' && input_bin.val() < whsesession.whse.bins.bins.from || input_bin.val() > whsesession.whse.bins.bins.through) {
+		} else if (whsesession.whse.bins.arranged == 'range') {
 			error = true;
 			title = 'Invalid Bin ID';
-			msg = 'Bin must be between ' + whsesession.whse.bins.bins.from + ' and ' + whsesession.whse.bins.bins.through;
+			msg = 'Please Enter a valid bin ID';
+			html = "<h4>Valid Bin Ranges<h4>"  + create_binrangetable();
+			
+			whsesession.whse.bins.bins.forEach(function(bin) {
+				if (input_bin.val() >= bin.from && input_bin.val() <= bin.through) {
+					error = false;
+				}
+			});
 		}
 		return new SwalError(error, title, msg);
 	}

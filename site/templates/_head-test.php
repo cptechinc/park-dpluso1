@@ -14,8 +14,8 @@
         	<link rel="stylesheet" type="text/css" href="<?php echo $css; ?>" />
         <?php endforeach; ?>
 
-        <script src="<?= hash_templatefile('scripts/libs/jquery.js'); ?>"></script>
-		<script src="<?= hash_templatefile('scripts/libs/moment.js'); ?>"></script>
+        <script src="<?= get_hashedtemplatefileURL('scripts/libs/jquery.js'); ?>"></script>
+		<script src="<?= get_hashedtemplatefileURL('scripts/libs/moment.js'); ?>"></script>
 		<?php include $config->paths->content.'common/phpjs/js-config.js.php'; ?>
 	</head>
     <body>

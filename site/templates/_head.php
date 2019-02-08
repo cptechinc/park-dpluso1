@@ -14,8 +14,8 @@
         	<link rel="stylesheet" type="text/css" href="<?php echo $css; ?>" />
         <?php endforeach; ?>
 
-        <script src="<?= hash_templatefile('scripts/libs/jquery.js'); ?>"></script>
-		<script src="<?= hash_templatefile('scripts/libs/moment.js'); ?>"></script>
+        <script src="<?= get_hashedtemplatefileURL('scripts/libs/jquery.js'); ?>"></script>
+		<script src="<?= get_hashedtemplatefileURL('scripts/libs/moment.js'); ?>"></script>
 		<script>moment().format();</script>
 	</head>
     <body class="fuelux">

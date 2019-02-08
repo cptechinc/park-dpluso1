@@ -16,9 +16,9 @@
 				} else {
 					$prefix = (!$user->loginid == SalesOrder::get_orderlockuser($ordn)) ? 'Editing' : 'Viewing';
 					$page->title = "$prefix Order #" . $ordn . ' for ' . Customer::get_customernamefromid($custID);
-					$config->scripts->append(hash_templatefile('scripts/edit/card-validate.js'));
-					$config->scripts->append(hash_templatefile('scripts/edit/edit-orders.js'));
-					$config->scripts->append(hash_templatefile('scripts/edit/edit-pricing.js'));
+					$config->scripts->append(get_hashedtemplatefileURL('scripts/edit/card-validate.js'));
+					$config->scripts->append(get_hashedtemplatefileURL('scripts/edit/edit-orders.js'));
+					$config->scripts->append(get_hashedtemplatefileURL('scripts/edit/edit-pricing.js'));
 					$page->body = $config->paths->content."edit/orders/outline.php";
 					$itemlookup->set_customer($order->custid, $order->shiptoid);
 					$itemlookup = $itemlookup->set_ordn($ordn);
@@ -36,8 +36,8 @@
 				$prefix = $quote->can_edit() ? 'Editing' : 'Viewing';
 				$page->title = "$prefix Quote #" . $qnbr . ' for ' . Customer::get_customernamefromid($quote->custid);
 				$page->body = $config->paths->content."edit/quotes/outline.php";
-				$config->scripts->append(hash_templatefile('scripts/edit/edit-quotes.js'));
-				$config->scripts->append(hash_templatefile('scripts/edit/edit-pricing.js'));
+				$config->scripts->append(get_hashedtemplatefileURL('scripts/edit/edit-quotes.js'));
+				$config->scripts->append(get_hashedtemplatefileURL('scripts/edit/edit-pricing.js'));
 				$itemlookup->set_customer($quote->custid, $quote->shiptoid);
 				$itemlookup = $itemlookup->set_qnbr($qnbr);
 				$formconfig = new FormFieldsConfig('quote');
@@ -52,9 +52,9 @@
 				$quote = $editquotedisplay->get_quote();
 				$page->title = "Creating a Sales Order from Quote #" . $qnbr;
 				$page->body = $config->paths->content."edit/quote-to-order/outline.php";
-				$config->scripts->append(hash_templatefile('scripts/edit/edit-quotes.js'));
-				$config->scripts->append(hash_templatefile('scripts/edit/edit-quote-to-order.js'));
-				$config->scripts->append(hash_templatefile('scripts/edit/edit-pricing.js'));
+				$config->scripts->append(get_hashedtemplatefileURL('scripts/edit/edit-quotes.js'));
+				$config->scripts->append(get_hashedtemplatefileURL('scripts/edit/edit-quote-to-order.js'));
+				$config->scripts->append(get_hashedtemplatefileURL('scripts/edit/edit-pricing.js'));
 				$itemlookup->set_customer($quote->custid, $quote->shiptoid);
 				$itemlookup = $itemlookup->set_qnbr($qnbr);
 				$itemlookup->set('to_order', true);
@@ -69,8 +69,8 @@
 	}
 
 	if ($modules->isInstalled('CaseQtyBottle')) {
-		$config->scripts->append(hash_modulefile('CaseQtyBottle/js/quick-entry.js'));
+		$config->scripts->append(get_hashedmodulefileURL('CaseQtyBottle/js/quick-entry.js'));
 	} else {
-		$config->scripts->append(hash_templatefile('scripts/edit/quick-entry.js'));
+		$config->scripts->append(get_hashedtemplatefileURL('scripts/edit/quick-entry.js'));
 	}
 	include ($config->paths->content.'edit/include-edit-page.php');

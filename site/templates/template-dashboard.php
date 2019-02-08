@@ -1,8 +1,7 @@
 <?php
-	$config->scripts->append(hash_templatefile('scripts/libs/datatables.js'));
-	$config->scripts->append(hash_templatefile('scripts/pages/dashboard.js'));
-	$config->scripts->append(hash_templatefile('scripts/libs/raphael.js'));
-	$config->scripts->append(hash_templatefile('scripts/libs/morris.js'));
+	$config->scripts->append(get_hashedtemplatefileURL('scripts/pages/dashboard.js'));
+	$config->scripts->append(get_hashedtemplatefileURL('scripts/libs/raphael.js'));
+	$config->scripts->append(get_hashedtemplatefileURL('scripts/libs/morris.js'));
 
 	switch ($user->role) {
 		default:

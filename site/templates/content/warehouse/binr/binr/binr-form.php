@@ -27,7 +27,7 @@
 						<div class="col-sm-6 form-group">
 							<label for="from-bin">Bin</label>
 							<div class="input-group">
-								<input type="text" class="form-control input-sm" name="from-bin" value="<?= $item->bin; ?>">
+								<input type="text" class="form-control input-sm" name="from-bin" value="<?= $item->bin; ?>" data-bin="<?= $item->bin; ?>">
 								<span class="input-group-btn">
 									<button type="button" class="btn btn-sm btn-default show-select-bins" data-direction="from"> <span class="fa fa-search"></span> </button>
 								</span>

@@ -6,7 +6,9 @@
 	// Set up filename and sessionID in case this was made through cURL
 	$filename = ($input->$requestmethod->sessionID) ? $input->$requestmethod->text('sessionID') : session_id();
 	$sessionID = ($input->$requestmethod->sessionID) ? $input->$requestmethod->text('sessionID') : session_id();
-
+	
+	$session->fromredirect = $page->url;
+	
 	/**
 	* ACCOUNT REDIRECT
 	* @param string $action
@@ -15,14 +17,30 @@
 	*
 	* switch ($action) {
 	*	case 'login':
+	*		- Makes Login Request for user
 	*		DBNAME=$config->DBNAME
 	*		LOGPERM
 	*		LOGINID=$username
 	*		PSWD=$password
 	*		break;
 	*	case 'logout':
+	*		- Makes Logout Request for user
 	*		DBNAME=$config->DBNAME
 	*		LOGOUT
+	*		break;
+	*	case 'permissions':
+	*		- Makes Update funcperm Request for user
+	*		DBNAME=$config->DBNAME
+	*		FUNCPERM
+	*		break;
+	*	case 'store-document':
+	*		- Makes a request to store Document (PDF) for document storage
+	*		NOTE should be moved a different redir
+	*		DBNAME=$config->DBNAME
+	*		DOCFILEFLDS=$folder
+	*		DOCFLD1=$field1
+	*		DOCFLD2=$field2
+	*		DOCFLD3=$field3
 	*		break;
 	* }
 	*
@@ -38,9 +56,6 @@
 				$session->loc = $config->pages->index.'redir/';
 			}
 			break;
-		case 'permissions':
-			$data = array("DBNAME=$config->dplusdbname", 'FUNCPERM');
-			break;
 		case 'logout':
 			$data = array("DBNAME=$config->dplusdbname", 'LOGOUT');
 			$session->loc = $config->pages->login;
@@ -52,6 +67,9 @@
 				$whsesession = WhseSession::load(session_id());
 				$whsesession->end_session();
 			}
+			break;
+		case 'permissions':
+			$data = array("DBNAME=$config->dplusdbname", 'FUNCPERM');
 			break;
 		case 'store-document':
 			$folder = $input->$requestmethod->text('filetype');

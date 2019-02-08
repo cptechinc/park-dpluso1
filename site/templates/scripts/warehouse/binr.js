@@ -53,7 +53,7 @@ $(function() {
 		var binID = binrow.data('binid');
 		var qty = binrow.data('qty');
 		var bindirection = binrow.data('direction');
-		
+		$('.binr-form').find('input[name='+bindirection+'-bin]').attr('data-bin', binID);
 		$('.binr-form').find('input[name='+bindirection+'-bin]').val(binID);
 		input_qty.val(qty);
 		$('.binr-form').find('.qty-available').text(qty);
@@ -97,11 +97,12 @@ $(function() {
 			}
 			swal_choosebin(bins);
 		} else {
-			var msg = 'Warehouse bin range is between ' + whsesession.whse.bins.bins.from + ' and ' + whsesession.whse.bins.bins.through;
+			var table = create_binrangetable();
+			
 			swal({
 				type: 'info',
-				title: 'Bin Range',
-				text: msg
+				title: 'Bin Ranges',
+				html: table
 			}).catch(swal.noop);
 		}
 	});
@@ -114,7 +115,7 @@ $(function() {
 			var valid_frombin = validate_frombin();
 			var valid_qty = validate_qty();
 			var valid_tobin = validate_tobin();
-			var valid_form = new SwalError(false, '', '');
+			var valid_form = new SwalError(false, '', '', false);
 			
 			if (valid_frombin.error) {
 				valid_form = valid_frombin;
@@ -128,7 +129,8 @@ $(function() {
 				swal({
 					type: 'error',
 					title: valid_form.title,
-					text: valid_form.msg
+					text: valid_form.msg,
+					html: valid_form.html
 				});
 			} else {
 				form.submit();
@@ -158,6 +160,7 @@ $(function() {
 		var error = false;
 		var title = '';
 		var msg = '';
+		var html = false;
 		var lowercase_frombin = input_frombin.val();
 		input_frombin.val(lowercase_frombin.toUpperCase());
 		
@@ -167,33 +170,47 @@ $(function() {
 			msg = 'Please Fill in the From Bin';
 		} else if (whsesession.whse.bins.arranged == 'list' && whsesession.whse.bins.bins[input_frombin.val()] === undefined) {
 			error = true;
-			title = 'Invalid Bin ID';
+			title = 'Invalid From Bin ID';
 			msg = 'Please Choose a valid From bin';
-		} else if (whsesession.whse.bins.arranged == 'list' && input_frombin.val() < whsesession.whse.bins.bins.from || input_frombin.val() > whsesession.whse.bins.bins.through) {
-			error = true;
-			title = 'Invalid Bin ID';
-			msg = 'From Bin must be between ' + whsesession.whse.bins.bins.from + ' and ' + whsesession.whse.bins.bins.through;
+		} else if (whsesession.whse.bins.arranged == 'range') {
+			if (input_frombin.val() != input_frombin.data('bin')) {
+				error = true;
+				
+				whsesession.whse.bins.bins.forEach(function(bin) {
+					if (input_frombin.val() >= bin.from && input_frombin.val() <= bin.through) {
+						error = false;
+					}
+				});
+				
+				if (error) {
+					title = 'Invalid From Bin ID';
+					msg = 'Your From Bin ID must between these ranges';
+					html = "<h4>Valid Bin Ranges<h4>" + create_binrangetable();
+				}
+			}
 		}
-		return new SwalError(error, title, msg);
+		return new SwalError(error, title, msg, html);
 	}
 
 	function validate_qty() {
 		var error = false;
 		var title = '';
 		var msg = '';
+		var html = false;
 		
 		if (input_qty.val() == '') {
 			error = true;
 			title = 'Error';
 			msg = 'Please fill in the Qty';
 		}
-		return new SwalError(error, title, msg);
+		return new SwalError(error, title, msg, html);
 	}
 
 	function validate_tobin() {
 		var error = false;
 		var title = '';
 		var msg = '';
+		var html = false;
 		var lowercase_tobin = input_tobin.val();
 		input_tobin.val(lowercase_tobin.toUpperCase());
 		
@@ -205,11 +222,34 @@ $(function() {
 			error = true;
 			title = 'Invalid Bin ID';
 			msg = 'Please Choose a valid To bin';
-		} else if (whsesession.whse.bins.arranged == 'list' && input_tobin.val() < whsesession.whse.bins.bins.from || input_tobin.val() > whsesession.whse.bins.bins.through) {
+		} else if (whsesession.whse.bins.arranged == 'range') {
 			error = true;
-			title = 'Invalid Bin ID';
-			msg = 'To Bin must be between ' + whsesession.whse.bins.bins.from + ' and ' + whsesession.whse.bins.bins.through;
+			
+			whsesession.whse.bins.bins.forEach(function(bin) {
+				if (input_tobin.val() >= bin.from && input_tobin.val() <= bin.through) {
+					error = false;
+				}
+			});
+			
+			if (error) {
+				title = 'Invalid To Bin ID';
+				msg = 'Your To Bin ID must between these ranges';
+				html = "<h4>Valid Bin Ranges<h4>" + create_binrangetable();
+			}
 		}
-		return new SwalError(error, title, msg);
+		return new SwalError(error, title, msg, html);
+	}
+	
+	function create_binrangetable() {
+		var bootstrap = new JsContento();
+		var table = bootstrap.open('table', 'class=table table-striped table-condensed');
+			whsesession.whse.bins.bins.forEach(function(bin) {
+				table += bootstrap.open('tr', '');
+					table += bootstrap.openandclose('td', '', bin.from);
+					table += bootstrap.openandclose('td', '', bin.through);
+				table += bootstrap.close('tr');
+			});
+		table += bootstrap.close('table');
+		return table;
 	}
 });

@@ -21,10 +21,10 @@
                     $page->body = $config->paths->content."vend-information/vend-info-outline.php";
                 }
                 $toolbar = $config->paths->content."vend-information/toolbar.php";
-                $config->scripts->append(hash_templatefile('scripts/vi/vend-functions.js'));
-                $config->scripts->append(hash_templatefile('scripts/vi/vend-info.js'));
-                $config->scripts->append(hash_templatefile('scripts/libs/raphael.js'));
-                $config->scripts->append(hash_templatefile('scripts/libs/morris.js'));
+                $config->scripts->append(get_hashedtemplatefileURL('scripts/vi/vend-functions.js'));
+                $config->scripts->append(get_hashedtemplatefileURL('scripts/vi/vend-info.js'));
+                $config->scripts->append(get_hashedtemplatefileURL('scripts/libs/raphael.js'));
+                $config->scripts->append(get_hashedtemplatefileURL('scripts/libs/morris.js'));
             } else {
                 $page->title = ($input->urlSegment(2)) ? "Vendor $vendorID Shipfrom: $shipfromID Not Found" : "Vendor $vendorID Not Found";
                 $toolbar = false;

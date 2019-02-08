@@ -1,12 +1,6 @@
 <?php
 	use Dplus\ProcessWire\DplusWire;
 	
-	/**
-	* CART REDIRECT
-	*  @param string $action
-	*
-	*/
-	
 	// Figure out page request method, then grab needed inputs
 	$requestmethod = $input->requestMethod('POST') ? 'post' : 'get';
 	$action = $input->$requestmethod->text('action');
@@ -19,11 +13,15 @@
 	$custID = $input->$requestmethod->text('custID');
 	$shipID = $input->$requestmethod->text('shipID');
 	
+	$session->fromredirect = $page->url;
+	
 	/**
 	* CART REDIRECT
+	* @param string $action
 	*
 	* switch ($action) {
 	*	case 'add-to-cart':
+	*		- Adds item to the cart for customer
 	*		DBNAME=$config->dplusdbname
 	*		CARTDET
 	*		ITEMID=$itemID
@@ -32,6 +30,7 @@
 	*		WHSE=$whse  **OPTIONAL
 	*		break;
 	*	case 'add-nonstock-item':
+	*		- Adds Nonstock item to the cart for customer
 	*		DBNAME=$config->dplusdbname
 	*		CARTDET
 	*		ITEMID=N
@@ -39,17 +38,20 @@
 	*		CUSTID=$custID
 	*		break;
 	*	case 'add-multiple-items':
+	*		- Adds Multiple Items to the cart for customer
 	*		DBNAME=$config->dplusdbname
 	*		CARTADDMULTIPLE
 	*		CUSTID=$custID
 	*		ITEMID=$custID   QTY=$qty  **REPEAT
 	*		break;
 	*	case 'reorder':
+	*		- Adds multiple items from a quote or order for that order / quote's customer
 	*		CARTADDMULTIPLE
 	*		CUSTID=$custID || PULL FROM QUOTENBR / ORDN
 	*		ITEMID=$custID   QTY=$qty  **REPEAT
 	*		break;
 	*	case 'update-line':
+	*		- Edits a cart detail line
 	*		DBNAME=$config->dplusdbname
 	*		CARTDET
 	*		LINENO=$linenbr
@@ -57,6 +59,7 @@
 	*		SHIPTOID=$shipID
 	*		break;
 	*	case 'remove-line':
+	*		- Remove Detail Line
 	*		DBNAME=$config->dplusdbname
 	*		CARTDET
 	*		LINENO=$linenbr
@@ -64,14 +67,17 @@
 	*		SHIPTOID=$shipID
 	*		break;
 	*	case 'empty-cart':
+	*		- Removes all items from the Cart
 	*		DBNAME=$config->dplusdbname
 	*		EMPTYCART
 	*		break;
 	*	case 'create-sales-order':
+	*		- Create Sales Order from cart 
 	*		DBNAME=$config->dplusdbname
 	*		CREATESO
 	*		break;
 	*	case 'create-quote':
+	*		- Create Quote from cart 
 	*		DBNAME=$config->dplusdbname
 	*		CREATEQT
 	*		break;
@@ -93,7 +99,7 @@
 				$data[] = "WHSE=$whse";
 			}
 			$session->addtocart = 'You added ' . $qty . ' of ' . $itemID . ' to your cart';
-			$session->loc = $input->post->page;
+			$session->loc = $input->$requestmethod->page;
 			break;
 		case 'add-nonstock-item':
 			$qty = $input->$requestmethod->text('qty');
@@ -102,18 +108,18 @@
 			$cartdetail->set('linenbr', '0');
 			$cartdetail->set('recno', 0);
 			$cartdetail->set('orderno', $sessionID);
-			$cartdetail->set('vendorid', $input->post->text('vendorID'));
-			$cartdetail->set('shipfromid', $input->post->text('shipfromID'));
-			$cartdetail->set('vendoritemid', $input->post->text('itemID'));
-			$cartdetail->set('desc1', $input->post->text('desc1'));
-			$cartdetail->set('desc2', $input->post->text('desc2'));
+			$cartdetail->set('vendorid', $input->$requestmethod->text('vendorID'));
+			$cartdetail->set('shipfromid', $input->$requestmethod->text('shipfromID'));
+			$cartdetail->set('vendoritemid', $input->$requestmethod->text('itemID'));
+			$cartdetail->set('desc1', $input->$requestmethod->text('desc1'));
+			$cartdetail->set('desc2', $input->$requestmethod->text('desc2'));
 			$cartdetail->set('qty', $qty);
-			$cartdetail->set('price', $input->post->text('price'));
-			$cartdetail->set('cost', $input->post->text('cost'));
-			$cartdetail->set('uom', $input->post->text('uofm'));
-			$cartdetail->set('nsitemgroup', $input->post->text('nsitemgroup'));
-			$cartdetail->set('ponbr', $input->post->text('ponbr'));
-			$cartdetail->set('poref', $input->post->text('poref'));
+			$cartdetail->set('price', $input->$requestmethod->text('price'));
+			$cartdetail->set('cost', $input->$requestmethod->text('cost'));
+			$cartdetail->set('uom', $input->$requestmethod->text('uofm'));
+			$cartdetail->set('nsitemgroup', $input->$requestmethod->text('nsitemgroup'));
+			$cartdetail->set('ponbr', $input->$requestmethod->text('ponbr'));
+			$cartdetail->set('poref', $input->$requestmethod->text('poref'));
 			$cartdetail->set('spcord', 'S');
 			$session->sql = $cartdetail->create();
 			$data = array("DBNAME=$config->dplusdbname", 'CARTDET', 'LINENO=0', 'ITEMID=N', "QTY=$qty", "CUSTID=$custID");
@@ -131,8 +137,8 @@
 				$data = $qtypercase->generate_multipleitemdata($data, $itemids, $case_qtys, $bottle_qtys);
 			} else {
 				$qtys = $input->$requestmethod->qty;
-				for ($i = 0; $i < sizeof($items); $i++) {
-					$itemID = str_pad(DplusWire::wire('sanitizer')->text($items[$i]), 30, ' ');
+				for ($i = 0; $i < sizeof($itemids); $i++) {
+					$itemID = str_pad(DplusWire::wire('sanitizer')->text($itemidss[$i]), 30, ' ');
 					$qty = DplusWire::wire('sanitizer')->text($qtys[$i]);
 					$qty = !empty($qty) ? $qty : "1";
 					$data[] = "ITEMID={$itemID}QTY=$qty";
@@ -171,7 +177,7 @@
 			$qty = determine_qty($input, $requestmethod, $cartdetail->itemid); // TODO MAKE IN CART DETAIL
 			$custID = CartQuote::get_cartcustid($sessionID);
 			$custID = !empty($custID) ? $custID : $config->defaultweb;
-			// $cartdetail->set('whse', $input->post->text('whse'));
+			// $cartdetail->set('whse', $input->$requestmethod->text('whse'));
 			$cartdetail->set('qty', $qty);
 			$cartdetail->set('price', $input->$requestmethod->text('price'));
 			$cartdetail->set('rshipdate', $input->$requestmethod->text('rqstdate'));
@@ -180,30 +186,30 @@
 			$session->loc = $config->pages->cart;
 			break;
 		case 'update-line':
-			$linenbr = $input->post->text('linenbr');
+			$linenbr = $input->$requestmethod->text('linenbr');
 			$cartdetail = CartDetail::load($sessionID, $linenbr);
 			$custID = !empty($custID) ? $custID : $config->defaultweb;
 			$qty = determine_qty($input, $requestmethod, $cartdetail->itemid); // TODO MAKE IN CART DETAIL
-			$cartdetail->set('price', $input->post->text('price'));
-			$cartdetail->set('discpct', $input->post->text('discount'));
+			$cartdetail->set('price', $input->$requestmethod->text('price'));
+			$cartdetail->set('discpct', $input->$requestmethod->text('discount'));
 			$cartdetail->set('qty', $qty);
-			$cartdetail->set('rshipdate', $input->post->text('rqstdate'));
-			$cartdetail->set('whse', $input->post->text('whse'));
-			$cartdetail->set('spcord', $input->post->text('specialorder'));
-			$cartdetail->set('vendorid', $input->post->text('vendorID'));
-			$cartdetail->set('shipfromid', $input->post->text('shipfromID'));
-			$cartdetail->set('vendoritemid', $input->post->text('vendoritemID'));
-			$cartdetail->set('nsitemgroup', $input->post->text('nsitemgroup'));
-			$cartdetail->set('ponbr', $input->post->text('ponbr'));
-			$cartdetail->set('poref', $input->post->text('poref'));
-			$cartdetail->set('uom', $input->post->text('uofm'));
+			$cartdetail->set('rshipdate', $input->$requestmethod->text('rqstdate'));
+			$cartdetail->set('whse', $input->$requestmethod->text('whse'));
+			$cartdetail->set('spcord', $input->$requestmethod->text('specialorder'));
+			$cartdetail->set('vendorid', $input->$requestmethod->text('vendorID'));
+			$cartdetail->set('shipfromid', $input->$requestmethod->text('shipfromID'));
+			$cartdetail->set('vendoritemid', $input->$requestmethod->text('vendoritemID'));
+			$cartdetail->set('nsitemgroup', $input->$requestmethod->text('nsitemgroup'));
+			$cartdetail->set('ponbr', $input->$requestmethod->text('ponbr'));
+			$cartdetail->set('poref', $input->$requestmethod->text('poref'));
+			$cartdetail->set('uom', $input->$requestmethod->text('uofm'));
 
 			if ($cartdetail->spcord != 'N') {
-				$cartdetail->set('desc1', $input->post->text('desc1'));
-				$cartdetail->set('desc2', $input->post->text('desc2'));
+				$cartdetail->set('desc1', $input->$requestmethod->text('desc1'));
+				$cartdetail->set('desc2', $input->$requestmethod->text('desc2'));
 			}
 			$session->sql = $cartdetail->update();
-			$session->loc = $input->post->text('page');
+			$session->loc = $input->$requestmethod->text('page');
 			$data = array("DBNAME=$config->dplusdbname", 'CARTDET', "LINENO=$linenbr", "CUSTID=$custID");
 			$session->loc = $config->pages->cart;
 			break;
