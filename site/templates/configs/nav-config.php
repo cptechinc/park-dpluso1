@@ -49,3 +49,4 @@
     $config->pages->binr = $config->urls->root . "warehouse/binr/binr/";
     $config->pages->menu_inventory = $config->urls->root . "warehouse/inventory/";
     $config->pages->inventory_physicalcount = $config->urls->root . "warehouse/inventory/physical-count/";
+    $config->pages->inventory_bininquiry = $config->urls->root . "warehouse/inventory/bin-inquiry/";

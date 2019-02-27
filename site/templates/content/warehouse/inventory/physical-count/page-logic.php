@@ -2,6 +2,7 @@
 	use Dplus\Warehouse\PhysicalCount;
 
 	$toolbar = false;
+	$config->scripts->append(get_hashedtemplatefileURL('scripts/warehouse/_shared-functions.js'));
 	$config->scripts->append(get_hashedtemplatefileURL('scripts/warehouse/physical-count.js'));
 	$whsesession = WhseSession::load(session_id());
 	$whsesession->init();

@@ -1,4 +1,6 @@
 <?php
+	use Purl\Url;
+
 	// Figure out page request method, then grab needed inputs
 	$requestmethod = $input->requestMethod('POST') ? 'post' : 'get';
 	$action = $input->$requestmethod->text('action');
@@ -69,7 +71,7 @@
 			$session->loc = $config->pages->salesorderpicking;
 			break;
 		case 'inventory-search':
-			$q = $input->$requestmethod->text('scan');
+			$q = strtoupper($input->$requestmethod->text('scan'));
 			$data = array("DBNAME=$config->dplusdbname", 'INVSEARCH', "QUERY=$q");
 			$url = new Purl\Url($input->$requestmethod->text('page'));
 			$url->query->set('scan', $q);
@@ -118,6 +120,13 @@
 			$data[] = "QTY=$qty";
 			$data[] = "FROMBIN=$frombin";
 			$data[] = "TOBIN=$tobin";
+			$url = new Purl\Url($input->$requestmethod->text('page'));
+			
+			if ($url->query->has('tobin')) {
+				$url->query->set('tobin', $tobin);
+			} elseif ($url->query->has('frombin')) {
+				$url->query->set('frombin', $frombin);
+			}
 			$session->loc = $input->$requestmethod->text('page');
 			$session->binr = 'true';
 			break;

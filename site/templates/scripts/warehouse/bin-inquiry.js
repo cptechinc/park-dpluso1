@@ -18,69 +18,30 @@ $(function() {
 	 */
 	$(".select-bin-form").validate({
 		submitHandler : function(form) {
-			var valid_form = new SwalError(false, '', '', false);
 			var valid_bin = validate_binID();
 			
 			if (valid_bin.error) {
-				valid_form = valid_bin;
-			}
-			
-			if (valid_form.error) {
-				swal({
-					type: 'error',
-					title: valid_form.title,
-					text: valid_form.msg,
-					html: valid_form.html
-				});
+				if (input_bin.val() != '') {
+					swal({
+						type: 'error',
+						title: valid_bin.title,
+						text: "Continue bin Inquiry with bin " + input_bin.val() + "?",
+						showCancelButton: true,
+					}).then(function (input) {
+						if (input) {
+							form.submit();
+						}
+					}).catch(swal.noop);;
+				} else {
+					swal({
+						type: 'error',
+						title: valid_bin.title,
+						text: valid_bin.msg
+					});
+				}
 			} else {
 				form.submit();
 			}
-		}
-	});
-	
-	/**
-	 * IF WAREHOUSE HAS A BIN LIST THEN SHOW A DROPDOWN LIST OF THE BIN LIST 
-	 * IF IT'S A BIN RANGE THEN WE SHOW THEM WHAT THE BIN RANGE IS
-	 * // NOTE THIS IS USED IN ALL THE STEPS
-	 */
-	$("body").on("click", ".show-possible-bins", function(e) {
-		e.preventDefault();
-		var button = $(this);
-		
-		if (whsesession.whse.bins.arranged == 'list') {
-			var bins = {};
-			var binid = '';
-			var spacesneeded = 0;
-			var spaces = '';
-			
-			for (var key in whsesession.whse.bins.bins) {
-				binid = key;
-				spacesneeded = (8 - binid.length);
-				spaces = '';
-				for (var i = 0; i <= spacesneeded; i++) {
-					spaces += '&nbsp;';
-				}
-				bins[key] = binid + spaces + whsesession.whse.bins.bins[key];
-			}
-			swal({
-				type: 'question',
-				title: 'Choose a bin',
-				input: 'select',
-				inputClass: 'form-control',
-				inputOptions: bins,
-			}).then(function (input) {
-				if (input) {
-					input_bin.val(input);
-					swal.close();
-				} 
-			}).catch(swal.noop);
-		} else {
-			var table = create_binrangetable();
-			swal({
-				type: 'info',
-				title: 'Bin Ranges',
-				html: table
-			}).catch(swal.noop);
 		}
 	});
 	
@@ -118,19 +79,7 @@ $(function() {
 				}
 			});
 		}
+		html = false;
 		return new SwalError(error, title, msg, html);
-	}
-	
-	function create_binrangetable() {
-		var bootstrap = new JsContento();
-		var table = bootstrap.open('table', 'class=table table-striped table-condensed');
-			whsesession.whse.bins.bins.forEach(function(bin) {
-				table += bootstrap.open('tr', '');
-					table += bootstrap.openandclose('td', '', bin.from);
-					table += bootstrap.openandclose('td', '', bin.through);
-				table += bootstrap.close('tr');
-			});
-		table += bootstrap.close('table');
-		return table;
 	}
 });

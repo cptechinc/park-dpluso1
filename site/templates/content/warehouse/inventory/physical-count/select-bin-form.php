@@ -6,7 +6,7 @@
 			<div class="input-group">
 				<input type="text" class="form-control" id="binID" name="binID">
 				<span class="input-group-btn">
-					<button type="button" class="btn btn-default show-possible-bins"> <span class="fa fa-search" aria-hidden="true"></span> </button>
+					<button type="button" class="btn btn-default show-possible-bins" data-input="binID"> <span class="fa fa-search" aria-hidden="true"></span> </button>
 				</span>
 			</div>
 		</div>

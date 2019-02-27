@@ -1,6 +1,6 @@
 <table class="table table-condensed table-striped">
 	<tr>
-		<td><b>Origin:</b> <?= strtoupper($item->xorigin); ?></td>
+		<td><b>Derived From:</b> <?= strtoupper($item->xorigin); ?></td>
 		<td><?= $item->xitemid; ?></td>
 	</tr>
 	<?php if ($item->is_lotted() || $item->is_serialized()) : ?>
